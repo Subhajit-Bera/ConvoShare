@@ -9,24 +9,41 @@ import {
   TextField,
   Typography,
 } from "@mui/material";
-import { useFileHandler, useInputValidation } from "6pp";
+
 import { CameraAlt as CameraAltIcon } from "@mui/icons-material";
 import { VisuallyHiddenInput } from "../components/styles/StyledComponents";
 import { usernameValidator } from "../utils/validators";
+import { useFileHandler } from "6pp";
+
+
 
 const Login = () => {
 
   const [isLogin, setIsLogin] = useState(true);
+  const [name, setName] = useState();
+  const [bio, setBio] = useState();
+  const [username, setUsername] = useState();
+  const [password, setPassword] = useState();
   const toggleLogin = () => setIsLogin((prev) => !prev);
 
-
-  const name = useInputValidation("");
-  const bio = useInputValidation("");
-  const username = useInputValidation("", usernameValidator);
-  const password = useInputValidation("");
-
   const avatar = useFileHandler("single");
+
+  const handleLogin = async (e) =>{
+    e.preventDefault();
+  }
+
+  const handleSignUp = async (e) => {
+    e.preventDefault();
+  }
+
+
+
   return (
+    <div
+      style={{
+        backgroundImage: "linear-gradient(rgb(255 225 209), rgb(249 159 159))"
+      }}
+    >
     <Container
       component={"main"}
       maxWidth="xs"
@@ -55,6 +72,7 @@ const Login = () => {
                 width: "100%",
                 marginTop: "1rem",
               }}
+              onSubmit={handleLogin}
               
             >
               <TextField
@@ -63,8 +81,8 @@ const Login = () => {
                 label="Username"
                 margin="normal"
                 variant="outlined"
-                value={username.value}
-                onChange={username.changeHandler}
+                value={username}
+                onChange={(e)=>setUsername(e.target.value)}
               />
 
               <TextField
@@ -74,8 +92,8 @@ const Login = () => {
                 type="password"
                 margin="normal"
                 variant="outlined"
-                value={password.value}
-                onChange={password.changeHandler}
+                value={password}
+                onChange={(e)=>setPassword(e.target.value)}
               />
 
               <Button
@@ -113,7 +131,7 @@ const Login = () => {
                 width: "100%",
                 marginTop: "1rem",
               }}
-        
+              onSubmit={handleSignUp}
 
             >
               <Stack position={"relative"} width={"10rem"} margin={"auto"}>
@@ -141,7 +159,7 @@ const Login = () => {
                 >
                   <>
                     <CameraAltIcon />
-                    <VisuallyHiddenInput
+                    <VisuallyHiddenInput  //Input tag for uploading pic
                       type="file"
                       onChange={avatar.changeHandler}
                     />
@@ -167,8 +185,8 @@ const Login = () => {
                 label="Name"
                 margin="normal"
                 variant="outlined"
-                value={name.value}
-                onChange={name.changeHandler}
+                value={name}
+                onChange={(e)=>setName(e.target.value)}
               />
 
               <TextField
@@ -177,8 +195,8 @@ const Login = () => {
                 label="Bio"
                 margin="normal"
                 variant="outlined"
-                value={bio.value}
-                onChange={bio.changeHandler}
+                value={bio}
+                onChange={(e)=>setBio(e.target.value)}
               />
               <TextField
                 required
@@ -186,13 +204,13 @@ const Login = () => {
                 label="Username"
                 margin="normal"
                 variant="outlined"
-                value={username.value}
-                onChange={username.changeHandler}
+                value={username}
+                onChange={(e)=>setUsername(e.target.value)}
               />
 
-              {username.error && (
+              {usernameValidator(username) && (
                 <Typography color="error" variant="caption">
-                  {username.error}
+                  Username is Invalid
                 </Typography>
               )}
 
@@ -203,8 +221,8 @@ const Login = () => {
                 type="password"
                 margin="normal"
                 variant="outlined"
-                value={password.value}
-                onChange={password.changeHandler}
+                value={password}
+                onChange={(e)=>setPassword(e.target.value)}
               />
 
               <Button
@@ -220,7 +238,7 @@ const Login = () => {
                 Sign Up
               </Button>
 
-              <Typography textAlign={"center"} m={"1rem"}>
+              <Typography textAlign={"center"}>
                 OR
               </Typography>
 
@@ -240,6 +258,7 @@ const Login = () => {
 
 
     </Container>
+    </div>
   )
 }
 

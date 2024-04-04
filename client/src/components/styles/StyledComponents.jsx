@@ -1,6 +1,7 @@
 import { Skeleton, keyframes, styled } from "@mui/material";
 
 
+//We are passing input element inside the styled component and give it style
 const VisuallyHiddenInput = styled("input")({
   border: 0,
   clip: "rect(0 0 0 0)",
