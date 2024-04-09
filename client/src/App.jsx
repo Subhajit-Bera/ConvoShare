@@ -6,6 +6,9 @@ const Home = lazy(() => import("./pages/Home"));
 const Login = lazy(() => import("./pages/Login"));
 const Chat = lazy(() => import("./pages/Chat"));
 const Groups = lazy(() => import("./pages/Groups"));
+const NotFound=lazy(()=>import("./pages/NotFound"));
+
+
 const user = true;
 const App = () => {
   return (
@@ -21,6 +24,10 @@ const App = () => {
           <ProtectRoute user={!user} redirect='/'>
             <Login />
           </ProtectRoute>} />
+
+        
+        {/* If user go to any random/non-existent route */}
+        <Route path="*" element={<NotFound />} />
 
       </Routes>
 
