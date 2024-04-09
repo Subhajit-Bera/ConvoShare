@@ -41,14 +41,14 @@ const Login = () => {
   return (
     <div
       style={{
-        backgroundImage: "linear-gradient(rgb(255 225 209), rgb(249 159 159))"
+        backgroundImage: "linear-gradient(rgb(212 236 233), rgb(80 105 199))"
       }}
     >
     <Container
       component={"main"}
       maxWidth="xs"
       sx={{
-        height: "100vh",
+        height: "100vh", 
         display: "flex",
         justifyContent: "center",
         alignItems: "center",
