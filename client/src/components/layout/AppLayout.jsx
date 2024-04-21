@@ -8,7 +8,8 @@ const AppLayout = () => (WrappedComponent) => {
     return (props) => (
         <>
             <Title />
-            <Header />
+            <Header /> 
+            {/* 4rem is the height of header */}
             <Grid container height={"calc(100vh - 4rem)"}>
                 <Grid
                     item
