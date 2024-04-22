@@ -8,7 +8,10 @@ ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>
     <HelmetProvider>
       <CssBaseline />
-      <App />
+      
+        <App />
+      
+
     </HelmetProvider>
   </React.StrictMode>,
 )

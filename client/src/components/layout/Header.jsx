@@ -123,7 +123,7 @@ const Header = () => {
 
       {
         isSearch && (
-          <Suspense fallback={<div>Loading..</div>}>
+          <Suspense fallback={<Backdrop open />}>
             <SearchDialog />
           </Suspense>
         )
@@ -131,7 +131,7 @@ const Header = () => {
 
       {
         isNotification && (
-          <Suspense fallback={<div>Loading..</div>}>
+          <Suspense fallback={<Backdrop open />}>
             <NotifcationDialog />
           </Suspense>
         )
@@ -139,7 +139,7 @@ const Header = () => {
 
       {
         isNewGroup && (
-          <Suspense fallback={<div>Loading..</div>}>
+          <Suspense fallback={<Backdrop open />}>
             <NewGroupDialog />
           </Suspense>
         )
