@@ -6,10 +6,17 @@ import { sampleChats } from '../../constants/sampleData';
 
 import Header from './Header'
 import Title from "../shared/Title";
+import Profile from '../specific/Profile';
+
+
 const AppLayout = () => (WrappedComponent) => {
     return (props) => {
         const params = useParams();
         const chatId = params.chatId;
+        const handleDeleteChat=(e,_id,groupChat)=>{
+            e.preventDefault();
+            console.log("DeleteChat",_id,groupChat)
+        }
         return (
             <>
                 <Title />
@@ -30,13 +37,14 @@ const AppLayout = () => (WrappedComponent) => {
                         <ChatList
                             chats={sampleChats}
                             chatId={chatId}
-                            newMessagesAlert={[
-                                {
-                                    chatId,
-                                    count: 4,
-                                },
-                            ]}
-                            onlineUsers={["1", "2"]}
+                            // newMessagesAlert={[
+                            //     {
+                            //         chatId,
+                            //         count: 4,
+                            //     },
+                            // ]}
+                            // onlineUsers={["1", "2"]}
+                            handleDeleteChat={handleDeleteChat}
                         />
                     </Grid>
 
@@ -56,7 +64,7 @@ const AppLayout = () => (WrappedComponent) => {
                             bgcolor: "rgba(0,0,0,0.85)",
                         }}
                     >
-                        Three
+                        <Profile/>
                     </Grid>
                 </Grid>
                 <WrappedComponent {...props} />

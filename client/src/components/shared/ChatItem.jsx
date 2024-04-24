@@ -1,6 +1,7 @@
 import React,{ memo } from 'react'
 import { Link } from '../styles/StyledComponents'
 import { Box, Stack, Typography } from "@mui/material";
+import AvatarCard from "./AvatarCard";
 
 //Also we can implement last message
 const ChatItem = ({
@@ -27,7 +28,7 @@ const ChatItem = ({
                     padding: "1rem",
                 }}
             >
-                {/* <AvatarCard avatar={avatar} /> */}
+                <AvatarCard avatar={avatar} />
                 <Stack>
                     <Typography>{name}</Typography>
                     {newMessageAlert && (
