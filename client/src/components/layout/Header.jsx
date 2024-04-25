@@ -1,6 +1,6 @@
 import React, { Suspense, lazy,useState } from 'react'
 import { useNavigate } from "react-router-dom";
-import { orange } from "../../constants/color";
+import { bgreen } from "../../constants/color";
 import {
   AppBar,
   Backdrop,
@@ -57,7 +57,7 @@ const Header = () => {
         <AppBar
           position="static"
           sx={{
-            bgcolor: orange,
+            bgcolor: bgreen,
           }}
         >
           <Toolbar>
