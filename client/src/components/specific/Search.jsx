@@ -8,9 +8,19 @@ import {
   Stack,
   TextField,
 } from "@mui/material";
+import UserItem from '../shared/UserItem';
+import { sampleUsers } from '../../constants/sampleData';
 
 const Search = () => {
   const [search, setSearch] = useState();
+
+  let isLoadingSendFriendRequest=false;
+
+  const [users,setUsers]=useState(sampleUsers);
+
+  const addFriendHandler=(id)=>{
+    console.log(id);
+  }
   return (
     <Dialog open>
       <Stack p={"2rem"} direction={"column"} width={"25rem"}>
@@ -29,6 +39,18 @@ const Search = () => {
             ),
           }}
         />
+
+        <List>
+          {users.map((i)=>(
+            <UserItem
+              user={i}
+              key={i._id}
+              handler={addFriendHandler}
+              handlerIsLoading={isLoadingSendFriendRequest}
+             />
+          ))}
+
+        </List>
       </Stack>
     </Dialog>
   )
