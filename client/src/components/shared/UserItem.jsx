@@ -32,6 +32,7 @@ const UserItem = ({
                         overflow: "hidden",
                         textOverflow: "ellipsis",
                         width: "100%",
+                        padding:"10px"
 
                     }}
                 >
