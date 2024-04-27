@@ -18,7 +18,7 @@ import {
   Search as SearchIcon,
   Group as GroupIcon,
   Logout as LogoutIcon,
-  Notifications as NotificationsIcon,
+  PersonAdd as NotificationsIcon,
 } from "@mui/icons-material";
 
 const SearchDialog = lazy(() => import("../specific/Search"));
@@ -104,7 +104,7 @@ const Header = () => {
               />
 
               <IconBtn
-                title={"Notifications"}
+                title={"Add Requests"}
                 icon={<NotificationsIcon />}
                 onClick={openNotification}
               // value={notificationCount}
