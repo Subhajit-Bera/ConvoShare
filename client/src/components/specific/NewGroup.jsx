@@ -14,12 +14,12 @@ import UserItem from '../shared/UserItem';
 
 const NewGroup = () => {
 
-  const[groupName, setGroupName] = useState();
+  const [groupName, setGroupName] = useState("");
   const [members, setMemebers] = useState(sampleUsers);
   const [selectedMembers, setSelectedMembers] = useState([]);
 
 
-  const selectMemberHandler = () => {
+  const selectMemberHandler = (id) => {
     setSelectedMembers((prev) =>
       prev.includes(id)
         ? prev.filter((currElement) => currElement !== id)
@@ -28,11 +28,16 @@ const NewGroup = () => {
   }
   console.log(selectedMembers);
 
+
+
   const submitHandler = () => { }
 
+  const closeHandler=()=>{
+
+  }
 
   return (
-    <Dialog open>
+    <Dialog open onClose={closeHandler}>
       <Stack p={{ xs: "1rem", sm: "3rem" }} width={"25rem"} spacing={"2rem"}>
 
         <DialogTitle textAlign={"center"} variant="h4">
@@ -48,11 +53,14 @@ const NewGroup = () => {
         <Typography variant="body1">Members</Typography>
 
         <Stack>
-          {
-            sampleUsers.map((i) => {
-              <UserItem user={i} key={i._id} handler={selectMemberHandler} />
-            })
-          }
+          {members.map((i) => (
+            <UserItem
+              user={i}
+              key={i._id}
+              handler={selectMemberHandler}
+              isAdded={selectedMembers.includes(i._id)}
+            />
+          ))}
         </Stack>
 
 
@@ -68,7 +76,13 @@ const NewGroup = () => {
             variant="contained"
             size="large"
             onClick={submitHandler}
-           
+            sx={{
+              bgcolor: "#91C788",
+              "&:hover": {
+                bgcolor:  "#99BC85",
+              },
+            }}
+
           >
             Create
           </Button>

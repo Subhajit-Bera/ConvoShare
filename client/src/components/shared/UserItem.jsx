@@ -5,7 +5,8 @@ import { Avatar, IconButton, ListItem, Stack, Typography } from "@mui/material";
 const UserItem = ({
     user,
     handler,
-    handlerIsLoading
+    handlerIsLoading,
+    isAdded=false
 }) => {
     const { name, _id, avatar } = user;
     return (
@@ -43,16 +44,20 @@ const UserItem = ({
                     size="small"
                     sx={{
                         
-                        bgcolor: "#91C788",
+                        bgcolor: isAdded ? "error.main" : "#91C788",
                         color: "white",
                         "&:hover": {
-                            bgcolor: "#99BC85",
+                            bgcolor: isAdded ? "error.dark" : "#99BC85",
                         },
                     }}
                     onClick={() => handler(_id)}
                     disabled={handlerIsLoading}
                 >
-                    <AddIcon />
+                    {
+                        isAdded ? <RemoveIcon/> : <AddIcon />
+                    }
+
+                    
                 </IconButton>
             </Stack>
         </ListItem>
