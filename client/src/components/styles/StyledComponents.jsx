@@ -19,7 +19,7 @@ const Link = styled(LinkComponent)`
   color: black;
   ${'' /* padding: 1rem; */}
   &:hover {
-    background-color: #D3E4CD;
+    background-color: rgba(0, 0, 0, 0.1);
   }
 `;
 

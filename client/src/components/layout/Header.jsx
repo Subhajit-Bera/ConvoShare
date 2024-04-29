@@ -21,6 +21,7 @@ import {
   PersonAdd as NotificationsIcon,
 } from "@mui/icons-material";
 
+
 const SearchDialog = lazy(() => import("../specific/Search"));
 const NotifcationDialog = lazy(() => import("../specific/Notifications"));
 const NewGroupDialog = lazy(() => import("../specific/NewGroup"));
@@ -58,6 +59,8 @@ const Header = () => {
           position="static"
           sx={{
             bgcolor: bgreen,
+            // boxShadow: " 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19)",
+           
           }}
         >
           <Toolbar>
