@@ -1,3 +1,4 @@
+
 import React, { lazy, Suspense } from 'react'
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import ProtectRoute from './components/auth/ProtectRoute';
@@ -35,6 +36,7 @@ const App = () => {
 
       </Suspense>
     </BrowserRouter>
+    
   )
 }
 

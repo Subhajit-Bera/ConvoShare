@@ -1,6 +1,7 @@
 import React, { memo } from 'react'
 import { Add as AddIcon, Remove as RemoveIcon } from "@mui/icons-material";
 import { Avatar, IconButton, ListItem, Stack, Typography } from "@mui/material";
+import { bgreen,bgreen2 } from '../../constants/color'; 
 
 const UserItem = ({
     user,
@@ -44,10 +45,10 @@ const UserItem = ({
                     size="small"
                     sx={{
                         
-                        bgcolor: isAdded ? "error.main" : "#91C788",
+                        bgcolor: isAdded ? "error.main" : bgreen2,
                         color: "white",
                         "&:hover": {
-                            bgcolor: isAdded ? "error.dark" : "#99BC85",
+                            bgcolor: isAdded ? "error.dark" : bgreen,
                         },
                     }}
                     onClick={() => handler(_id)}

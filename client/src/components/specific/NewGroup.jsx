@@ -11,6 +11,7 @@ import {
 
 import { sampleUsers } from '../../constants/sampleData';
 import UserItem from '../shared/UserItem';
+import { bgreen,bgreen2 } from '../../constants/color';
 
 const NewGroup = () => {
 
@@ -77,9 +78,9 @@ const NewGroup = () => {
             size="large"
             onClick={submitHandler}
             sx={{
-              bgcolor: "#91C788",
+              bgcolor: bgreen2,
               "&:hover": {
-                bgcolor:  "#99BC85",
+                bgcolor:  bgreen,
               },
             }}
 
