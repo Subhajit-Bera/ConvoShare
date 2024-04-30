@@ -59,7 +59,7 @@ const Header = () => {
           position="static"
           sx={{
             bgcolor: bgreen,
-            boxShadow: " 0px 90px  ",
+            // boxShadow: " 0px 90px  ",
             
            
           }}

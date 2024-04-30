@@ -1,6 +1,6 @@
 import { Skeleton, keyframes, styled } from "@mui/material";
 import { Link as LinkComponent } from "react-router-dom";
-import { grayColor } from "../../constants/color";
+import { bgc,grayColor } from "../../constants/color";
 
 //We are passing input element inside the styled component and give it style
 const VisuallyHiddenInput = styled("input")({
@@ -20,7 +20,11 @@ const Link = styled(LinkComponent)`
   color: black;
   ${'' /* padding: 1rem; */}
   &:hover {
-    background-color: rgba(0, 0, 0, 0.1);
+    ${'' /* background-color: rgba(0, 0, 0, 0.1); */}
+    background-color: ${bgc};
+    ${'' /* border-top: 2px solid #99BC85 ;
+    border-bottom: 2px solid #99BC85 ; */}
+    box-shadow:0px 10px 20px rgba(0, 0, 0, 0.3);
   }
 `;
 

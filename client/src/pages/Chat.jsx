@@ -10,7 +10,15 @@ import AppLayout from '../components/layout/AppLayout'
 import { AttachFile as AttachFileIcon, Send as SendIcon, } from "@mui/icons-material";
 import { InputBox } from "../components/styles/StyledComponents";
 import FileMenu from "../components/dialogs/FileMenu";
-import { grayColor,bgreen } from "../constants/color";
+import { grayColor,bgreen,bgc, bgreen2 } from "../constants/color";
+import { sampleMessage } from '../constants/sampleData';
+import MessageComponent from '../components/shared/MessageComponent';
+
+
+const user={
+    _id:"sdfsdfsdf",
+    name:"Subha Bera"
+}
 
 const Chat = () => {
     const containerRef = useRef(null);
@@ -21,22 +29,26 @@ const Chat = () => {
                 boxSizing={"border-box"}
                 padding={"1rem"}
                 spacing={"1rem"}
-                bgcolor={grayColor}
+                bgcolor={bgc}
                 height={"90%"}
                 sx={{
                     overflowX: "hidden",
                     overflowY: "auto",
                 }}
             >
-                {/* Show Messages */}
+            {sampleMessage.map((i)=>(
+                    <MessageComponent key={i._id} message={i} user={user}/>
+                ))
+            }
+                
 
             </Stack>
+
 
             <form
                 style={{
                     height: "10%",
                 }}
-
             >
                 <Stack
                     direction={"row"}
@@ -70,12 +82,12 @@ const Chat = () => {
                         type="submit"
                         sx={{
                             rotate: "-30deg",
-                            bgcolor: bgreen,
+                            bgcolor: bgreen2,
                             color: "white",
                             marginLeft: "1rem",
                             padding: "0.5rem",
                             "&:hover": {
-                                bgcolor: "error.dark",
+                                bgcolor: bgreen,
                             },
                         }}
                     >

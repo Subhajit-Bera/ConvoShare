@@ -22,10 +22,11 @@ const ChatItem = ({
                     display: "flex",
                     gap: "1rem",
                     alignItems: "center",
-                    backgroundColor: sameSender ? "#D3E4CD" : "unset",
+                    backgroundColor: sameSender ? "#FEF5ED" : "unset",
                     color: sameSender ? "black" : "unset",
                     position: "relative",
                     padding: "1rem",
+                    
                 }}
             >
                 <AvatarCard avatar={avatar} />
