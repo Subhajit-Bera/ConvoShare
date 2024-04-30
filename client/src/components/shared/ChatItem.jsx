@@ -26,6 +26,10 @@ const ChatItem = ({
                     color: sameSender ? "black" : "unset",
                     position: "relative",
                     padding: "1rem",
+                   
+
+                    
+                    
                     
                 }}
             >

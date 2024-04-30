@@ -5,7 +5,7 @@ import moment from "moment";
 
 import { fileFormat } from "../../lib/features";
 import RenderAttachment from './RenderAttachment';
-import { transformImage } from '../../lib/features';
+
 
 const MessageComponent = ({ message, user }) => {
   const { sender, content, attachments = [], createdAt } = message;
