@@ -25,16 +25,20 @@ import { useNavigate, useSearchParams } from "react-router-dom";
 import AvatarCard from "../components/shared/AvatarCard";
 import { Link } from "../components/styles/StyledComponents";
 import { bgc, matBlack } from '../constants/color';
-import {sampleChats} from '../constants/sampleData'
+import { sampleChats } from '../constants/sampleData'
 
 
 const Groups = () => {
 
   //
-  const chatId=useSearchParams()[0].get("group");
+  const chatId = useSearchParams()[0].get("group");
 
   const navigate = useNavigate();
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const [isEdit, setIsEdit] = useState(false);
+
+  const [groupName, setGroupName] = useState("");
+  const [groupNameUpdatedValue, setGroupNameUpdatedValue] = useState("");
 
   const handleMobile = () => {
     setIsMobileMenuOpen((prev) => !prev);
@@ -45,6 +49,26 @@ const Groups = () => {
   const navigateBack = () => {
     navigate("/");
   };
+  const updateGroupName = () => {
+    setIsEdit(false);
+    console.log(groupNameUpdatedValue);
+  }
+
+
+  useEffect(() => {
+    if (chatId) {
+      setGroupName(`Group Name ${chatId}`);
+      setGroupNameUpdatedValue(`Group Name ${chatId}`);
+    }
+
+
+    return () => {
+      setGroupName("");
+      setGroupNameUpdatedValue("");
+      setIsEdit(false);
+    };
+  }, [chatId]);
+
 
   const IconBtns = (
     <>
@@ -85,6 +109,39 @@ const Groups = () => {
   );
 
 
+  const GroupName = (
+    <Stack
+      direction={"row"}
+      alignItems={"center"}
+      justifyContent={"center"}
+      spacing={"1rem"}
+      padding={"3rem"}
+    >
+      {isEdit ? (
+        <>
+          <TextField
+            value={groupNameUpdatedValue}
+            onChange={(e) => setGroupNameUpdatedValue(e.target.value)}
+          />
+          {/* disabled={isLoadingGroupName} */}
+          <IconButton onClick={updateGroupName} >
+            <DoneIcon />
+          </IconButton>
+        </>
+      ) : (
+        <>
+          <Typography variant="h4">{groupName}</Typography>
+          <IconButton
+            // disabled={isLoadingGroupName}
+            onClick={() => setIsEdit(true)}
+          >
+            <EditIcon />
+          </IconButton>
+        </>
+      )}
+    </Stack>
+  );
+
 
 
   return (
@@ -102,7 +159,7 @@ const Groups = () => {
         sm={4}
       // bgcolor={bgc}
       >
-        <GroupsList myGroups={sampleChats} chatId={chatId}/>
+        <GroupsList myGroups={sampleChats} chatId={chatId} />
       </Grid>
 
       <Grid
@@ -118,6 +175,10 @@ const Groups = () => {
         }}
       >
         {IconBtns}
+        {
+          groupName && GroupName
+        }
+
       </Grid>
 
       {/* GroupLIst for sx screen size(Mobile) */}
@@ -132,7 +193,7 @@ const Groups = () => {
         onClose={handleMobileClose}
       >
         {/* GroupList */}
-        <GroupsList w={"50vw"} myGroups={sampleChats} chatId={chatId}/>
+        <GroupsList w={"50vw"} myGroups={sampleChats} chatId={chatId} />
       </Drawer>
     </Grid>
   )
@@ -173,9 +234,9 @@ const GroupListItem = memo(({ group, chatId }) => {
     <Link
       to={`?group=${_id}`}
       sx={{
-        padding:"1rem"
+        padding: "1rem"
       }}
-      
+
       onClick={(e) => {
         if (chatId === _id) e.preventDefault();
       }}
