@@ -24,9 +24,20 @@ import {
 import { useNavigate, useSearchParams } from "react-router-dom";
 import AvatarCard from "../components/shared/AvatarCard";
 import { Link } from "../components/styles/StyledComponents";
-import { bgc, matBlack } from '../constants/color';
+import { bgc, matBlack, bgreen, bgreen2 } from '../constants/color';
 import { sampleChats } from '../constants/sampleData'
 
+const ConfirmDeleteDialog = lazy(() =>
+  import("../components/dialogs/ConfirmDeleteDialog")
+);
+
+const AddMemberDialog = lazy(() =>
+  import("../components/dialogs/AddMemberDialog")
+);
+
+
+//will handle in redux
+const isAddMember = false;
 
 const Groups = () => {
 
@@ -36,6 +47,7 @@ const Groups = () => {
   const navigate = useNavigate();
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [isEdit, setIsEdit] = useState(false);
+  const [confirmDeleteDialog, setConfirmDeleteDialog] = useState(false);
 
   const [groupName, setGroupName] = useState("");
   const [groupNameUpdatedValue, setGroupNameUpdatedValue] = useState("");
@@ -54,7 +66,64 @@ const Groups = () => {
     console.log(groupNameUpdatedValue);
   }
 
+  const openConfirmDeleteHandler = () => {
+    setConfirmDeleteDialog(true);
+    console.log("Delete Group");
+  };
 
+  const closeConfirmDeleteHandler = () => {
+    setConfirmDeleteDialog(false);
+  };
+
+
+  const openAddMemberHandler = () => {
+    console.log("Add Membar");
+  };
+
+  const ButtonGroup = (
+    <Stack
+      direction={{
+        xs: "column-reverse",
+        sm: "row",
+      }}
+      m={"1rem"}
+      spacing={"1rem"}
+      p={{
+        xs: "0",
+        sm: "1rem",
+        md: "1rem 4rem",
+      }}
+    >
+      <Button
+        size="md"
+        color="error"
+        variant="outlined"
+        startIcon={<DeleteIcon />}
+        onClick={openConfirmDeleteHandler}
+      >
+        Delete Group
+      </Button>
+      <Button
+        size="md"
+        variant="contained"
+        startIcon={<AddIcon />}
+        sx={{
+          bgcolor: bgreen2,
+          "&:hover": {
+            bgcolor: bgreen,
+          },
+        }}
+        onClick={openAddMemberHandler}
+      >
+        Add Member
+      </Button>
+    </Stack>
+  );
+
+  const deleteHandler = () => {
+    console.log("Delete Handler");
+    closeConfirmDeleteHandler();
+  }
   useEffect(() => {
     if (chatId) {
       setGroupName(`Group Name ${chatId}`);
@@ -115,7 +184,7 @@ const Groups = () => {
       alignItems={"center"}
       justifyContent={"center"}
       spacing={"1rem"}
-      padding={"3rem"}
+      padding={"2rem"}
     >
       {isEdit ? (
         <>
@@ -171,15 +240,71 @@ const Groups = () => {
           flexDirection: "column",
           alignItems: "center",
           position: "relative",
-          padding: "1rem 3rem",
+          padding: "1rem 2rem",
         }}
       >
         {IconBtns}
         {
-          groupName && GroupName
-        }
+          groupName && (
+            <>
+              {GroupName}
+              <Typography
+                margin={"1rem"}
+                alignSelf={"flex-start"}
+                variant="body1"
+              >
+                Members
+              </Typography>
+
+
+              <Stack
+                maxWidth={"45rem"}
+                width={"100%"}
+                boxSizing={"border-box"}
+                padding={{
+                  sm: "1rem",
+                  xs: "0",
+                  md: "1rem 4rem",
+                }}
+                bgcolor={bgc}
+                // spacing={"2rem"}
+                height={"70vh"}
+                overflow={"auto"}
+              >
+                {/* Members */}
+              </Stack>
+
+
+
+              {ButtonGroup}
+            </>
+
+
+          )}
 
       </Grid>
+
+
+      {/* Dialog for Add member and Delete Group */}
+
+
+      {isAddMember && (
+        <Suspense fallback={<Backdrop open />}>
+          <AddMemberDialog chatId={chatId} />
+        </Suspense>
+      )}
+
+
+      {confirmDeleteDialog && (
+        <Suspense fallback={<Backdrop open />}>
+          <ConfirmDeleteDialog
+            open={confirmDeleteDialog}
+            handleClose={closeConfirmDeleteHandler}
+            deleteHandler={deleteHandler}
+          />
+        </Suspense>
+      )}
+
 
       {/* GroupLIst for sx screen size(Mobile) */}
       <Drawer
