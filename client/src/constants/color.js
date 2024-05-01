@@ -3,5 +3,6 @@ export const bgreen2="#91C788";
 
 export const ngreen="#86A789";
 export const grayColor = "rgba(247,247,247,1)";
+export const matBlack = "#1c1c1c";
 
 export const bgc="#FEF5ED";
