@@ -108,7 +108,7 @@ const Header = () => {
               />
 
               <IconBtn
-                title={"Add Requests"}
+                title={"Chat Requests"}
                 icon={<NotificationsIcon />}
                 onClick={openNotification}
               // value={notificationCount}

@@ -39,7 +39,7 @@ const NewGroup = () => {
 
   return (
     <Dialog open onClose={closeHandler}>
-      <Stack p={{ xs: "1rem", sm: "3rem" }} width={"25rem"} spacing={"2rem"}>
+      <Stack p={{ xs: "1rem", sm: "2rem" }} width={"18rem"} spacing={"2rem"}>
 
         <DialogTitle textAlign={"center"} variant="h4">
           New Group
@@ -69,13 +69,15 @@ const NewGroup = () => {
           <Button
             variant="outlined"
             color="error"
-            size="large"
+            size="medium"
           >
             Cancel
           </Button>
           <Button
             variant="contained"
-            size="large"
+            // p={{ xs: "1rem", sm: "2rem" }}
+            
+            size="medium"
             onClick={submitHandler}
             sx={{
               bgcolor: bgreen2,
