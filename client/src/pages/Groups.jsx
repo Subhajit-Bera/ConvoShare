@@ -24,8 +24,9 @@ import {
 import { useNavigate, useSearchParams } from "react-router-dom";
 import AvatarCard from "../components/shared/AvatarCard";
 import { Link } from "../components/styles/StyledComponents";
-import { bgc, matBlack, bgreen, bgreen2 } from '../constants/color';
-import { sampleChats } from '../constants/sampleData'
+import { bgc, matBlack, bgreen, bgreen2,grayColor } from '../constants/color';
+import { sampleChats, sampleUsers } from '../constants/sampleData'
+import UserItem from '../components/shared/UserItem';
 
 const ConfirmDeleteDialog = lazy(() =>
   import("../components/dialogs/ConfirmDeleteDialog")
@@ -79,6 +80,12 @@ const Groups = () => {
   const openAddMemberHandler = () => {
     console.log("Add Membar");
   };
+
+
+  const removeMemberHandler=(id)=>{
+    console.log("Remove member",id)
+  }
+
 
   const ButtonGroup = (
     <Stack
@@ -242,6 +249,7 @@ const Groups = () => {
           position: "relative",
           padding: "1rem 2rem",
         }}
+        bgcolor={grayColor}
       >
         {IconBtns}
         {
@@ -250,8 +258,9 @@ const Groups = () => {
               {GroupName}
               <Typography
                 margin={"1rem"}
-                alignSelf={"flex-start"}
+                alignSelf={"center"}
                 variant="body1"
+                
               >
                 Members
               </Typography>
@@ -266,12 +275,28 @@ const Groups = () => {
                   xs: "0",
                   md: "1rem 4rem",
                 }}
-                bgcolor={bgc}
+                bgcolor={bgc }
+                
                 // spacing={"2rem"}
                 height={"70vh"}
                 overflow={"auto"}
               >
                 {/* Members */}
+
+                {sampleUsers.map((i) => (
+                  <UserItem
+                    user={i}
+                    key={i._id}
+                    isAdded
+                    styling={{
+              
+                      padding: "5px",
+                      bgcolor:grayColor
+                    }}
+                    handler={removeMemberHandler}
+                  />
+                  ))
+                }  
               </Stack>
 
 

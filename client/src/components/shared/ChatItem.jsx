@@ -20,7 +20,7 @@ const ChatItem = ({
             <div
                 style={{
                     display: "flex",
-                    // gap: "1rem",
+                    gap: "1rem",
                     alignItems: "center",
                     backgroundColor: sameSender ? "#FEF5ED" : "unset",
                     color: sameSender ? "black" : "unset",

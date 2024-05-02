@@ -7,7 +7,8 @@ const UserItem = ({
     user,
     handler,
     handlerIsLoading,
-    isAdded=false
+    isAdded=false,
+    styling={}
 }) => {
     const { name, _id, avatar } = user;
     return (
@@ -21,6 +22,7 @@ const UserItem = ({
                     boxShadow: "2px 2px 4px rgba(0, 0, 0, 0.2)", 
                     borderRadius: "20px",
                 }}
+                {...styling}
             >
                 <Avatar />
 
