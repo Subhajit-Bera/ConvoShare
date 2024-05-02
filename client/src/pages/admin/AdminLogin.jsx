@@ -12,7 +12,7 @@ import {
 import { Navigate } from 'react-router-dom';
 
 
-const isAdmin=true;
+const isAdmin=false;
 
 const AdminLogin = () => {
 
