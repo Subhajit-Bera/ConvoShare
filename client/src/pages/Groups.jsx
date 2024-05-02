@@ -259,7 +259,7 @@ const Groups = () => {
               <Typography
                 margin={"1rem"}
                 alignSelf={"center"}
-                variant="body1"
+                variant="h5"
                 
               >
                 Members
@@ -276,11 +276,13 @@ const Groups = () => {
                   md: "1rem 4rem",
                 }}
                 bgcolor={bgc }
-                
+                boxShadow= {"rgba(0, 0, 0, 0.35) 0px 5px 15px"}
+                borderRadius={"10px"}
                 // spacing={"2rem"}
-                height={"70vh"}
+                height={"50vh"}
                 overflow={"auto"}
               >
+
                 {/* Members */}
 
                 {sampleUsers.map((i) => (
@@ -299,8 +301,6 @@ const Groups = () => {
                 }  
               </Stack>
 
-
-
               {ButtonGroup}
             </>
 
@@ -310,9 +310,7 @@ const Groups = () => {
       </Grid>
 
 
-      {/* Dialog for Add member and Delete Group */}
-
-
+      {/* Dialog for Add member */}
       {isAddMember && (
         <Suspense fallback={<Backdrop open />}>
           <AddMemberDialog chatId={chatId} />
@@ -320,6 +318,7 @@ const Groups = () => {
       )}
 
 
+      {/* Dialog for Delete Group */}
       {confirmDeleteDialog && (
         <Suspense fallback={<Backdrop open />}>
           <ConfirmDeleteDialog
@@ -361,6 +360,7 @@ const GroupsList = ({ w = "100%", myGroups = [], chatId }) => (
       height: "100vh",
       overflow: "auto",
     }}
+    
   >
     {myGroups.length > 0 ? (
       myGroups.map((group) => (
@@ -391,7 +391,7 @@ const GroupListItem = memo(({ group, chatId }) => {
         if (chatId === _id) e.preventDefault();
       }}
     >
-      <Stack direction={"row"} spacing={"1rem"} alignItems={"center"}>
+      <Stack direction={"row"} spacing={"2rem"} alignItems={"center"}>
         <AvatarCard avatar={avatar} />
         <Typography>{name}</Typography>
       </Stack>

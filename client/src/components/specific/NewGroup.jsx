@@ -91,7 +91,6 @@ const NewGroup = () => {
           </Button>
         </Stack>
 
-
       </Stack>
     </Dialog>
   )

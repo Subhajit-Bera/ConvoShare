@@ -15,12 +15,22 @@ const ChatItem = ({
     index = 0,
     handleDeleteChat,
 }) => {
+    // Maintaing Gap between Avtar and Chat name (single and group chat)
+    let groupAvatar=false;
+    if(avatar.length>1){
+        groupAvatar=true;
+    }else{
+        groupAvatar=false;
+    }
+    
     return (
+
         <Link to={`/chat/${_id}`} onContextMenu={(e)=>handleDeleteChat(e,_id,groupChat)}>
+           {}
             <div
                 style={{
                     display: "flex",
-                    gap: "1rem",
+                    gap: groupAvatar? "1.5rem":"unset",
                     alignItems: "center",
                     backgroundColor: sameSender ? "#FEF5ED" : "unset",
                     color: sameSender ? "black" : "unset",

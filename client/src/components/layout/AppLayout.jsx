@@ -67,6 +67,7 @@ const AppLayout = () => (WrappedComponent) => {
                         <Profile/>
                     </Grid>
                 </Grid>
+
             </>
         );
     }
