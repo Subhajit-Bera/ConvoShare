@@ -107,7 +107,7 @@ const Sidebar = ({ w = "100%" }) => {
 }
 
 
-const isAdmin=false;
+const isAdmin=true;
 const AdminLayout = ({ children }) => {
     const [isMobile, setIsMobile] = useState(false);
 

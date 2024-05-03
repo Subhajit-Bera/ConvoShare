@@ -1,10 +1,13 @@
 import React from 'react'
+import AdminLayout from '../../components/layout/AdminLayout'
 
 const MessageManagement = () => {
   return (
-    <div>
-      MessageManagement
-    </div>
+    <AdminLayout>
+      <div>
+        MessageManagement
+      </div>
+    </AdminLayout>
   )
 }
 
