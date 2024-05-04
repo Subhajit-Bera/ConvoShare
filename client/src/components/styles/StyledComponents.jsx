@@ -1,6 +1,6 @@
 import { Skeleton, keyframes, styled } from "@mui/material";
 import { Link as LinkComponent } from "react-router-dom";
-import { bgc,grayColor } from "../../constants/color";
+import { bgc,grayColor,bgreen,bgreen2 } from "../../constants/color";
 
 //We are passing input element inside the styled component and give it style
 const VisuallyHiddenInput = styled("input")({
@@ -38,9 +38,33 @@ const InputBox = styled("input")`
   background-color: ${grayColor};
 `;
 
+const SearchField = styled("input")`
+  padding: 1rem 2rem;
+  width: 20vmax;
+  border: none;
+  outline: none;
+  border-radius: 1.5rem;
+  background-color: ${grayColor};
+  font-size: 1.1rem;
+`;
+
+const CurveButton = styled("button")`
+  border-radius: 1.5rem;
+  padding: 1rem 2rem;
+  border: none;
+  outline: none;
+  cursor: pointer;
+  background-color: ${bgreen};
+  color: white;
+  font-size: 1.1rem;
+  &:hover {
+    background-color:${bgreen2};
+  }
+`;
+
 export {
   VisuallyHiddenInput, Link,
-  InputBox
+  InputBox,SearchField ,CurveButton
 };
 
 
