@@ -18,6 +18,7 @@ import {
 import moment from "moment";
 import { SearchField, CurveButton } from '../../components/styles/StyledComponents';
 import { bgreen,matBlack } from '../../constants/color';
+import { DoughnutChart, LineChart } from '../../components/specific/Charts';
 
 const Dashboard = () => {
 
@@ -109,7 +110,7 @@ const Dashboard = () => {
               Last Messages
             </Typography>
 
-            {"Chart"}
+            <LineChart value={[10,13,34,11,9,13]}/>
           </Paper>
 
           <Paper
@@ -125,7 +126,9 @@ const Dashboard = () => {
               maxWidth: "25rem",
             }}
           >
-            {"DoughnutChart"}
+            <DoughnutChart labels={["Single Chats","Group Chats"]}
+              value={[32,61]}
+            />
 
 
             <Stack

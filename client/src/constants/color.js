@@ -8,3 +8,7 @@ export const grayColor = "rgba(0, 0, 0, 0.09)";
 export const matBlack = "#1c1c1c";
 
 export const bgc="#FEF5ED";
+
+
+export const purple = "rgba(75,12,192,1)";
+export const purpleLight = "rgba(75,12,192,0.2)";
