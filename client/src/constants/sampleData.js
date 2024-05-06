@@ -204,17 +204,23 @@ export const dashboardData = {
     ],
 
     messages: [
+
         {
-            attachments: [],
-            content: "L*uda ka Message hai",
-            _id: "sfnsdjkfsdnfkjsbnd",
+            attachments: [
+                {
+                    public_id: "asdsad 2",
+                    url: "https://www.w3schools.com/howto/img_avatar.png",
+                },
+            ],
+            content: "Sample message 1",
+            _id: "sfnsdjkfsdnfkjsb",
             sender: {
                 avatar: "https://www.w3schools.com/howto/img_avatar.png",
-                name: "Chaman ",
+                name: "User 1",
             },
             chat: "chatId",
-            groupChat: false,
-            createdAt: "2024-02-12T10:41:30.630Z",
+            groupChat:false,
+            createdAt: "2024-04-12T10:41:30.630Z",
         },
 
         {
@@ -228,11 +234,11 @@ export const dashboardData = {
             _id: "sfnsdjkfsdnfkdddjsbnd",
             sender: {
                 avatar: "https://www.w3schools.com/howto/img_avatar.png",
-                name: "Chaman  2",
+                name: "User 2",
             },
             chat: "chatId",
-            groupChat: true,
-            createdAt: "2024-02-12T10:41:30.630Z",
+            groupChat:true,
+            createdAt: "2024-04-12T10:41:30.630Z",
         },
     ],
 };
