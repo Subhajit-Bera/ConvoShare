@@ -186,7 +186,7 @@ export const dashboardData = {
             },
         },
         {
-            name: "L*Da Luston Group",
+            name: "Lassi Luston Group",
             avatar: ["https://www.w3schools.com/howto/img_avatar.png"],
             _id: "2",
             groupChat: true,
