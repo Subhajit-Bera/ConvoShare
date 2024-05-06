@@ -26,7 +26,7 @@ const Dashboard = () => {
   const Appbar = (
     <Paper
       elevation={3}
-      sx={{ padding: "2rem", margin: "2rem 0", borderRadius: "1rem" }}
+      sx={{ padding: "1rem", margin: "1rem 0", borderRadius: "1rem" }}
     >
       <Stack direction={"row"} alignItems={"center"} spacing={"1rem"}>
         <AdminPanelSettingsIcon sx={{ fontSize: "3rem", color: bgreen }} />
@@ -95,7 +95,7 @@ const Dashboard = () => {
             xs: "center",
             lg: "stretch",
           }}
-          sx={{ gap: "2rem" }}
+          sx={{ gap: "1rem" }}
         >
           <Paper
             elevation={3}
@@ -185,5 +185,5 @@ const Widget = ({ title, value, Icon }) => (
     </Stack>
   </Paper>
 );
-
+ 
 export default Dashboard
