@@ -3,7 +3,7 @@ import { sendToken } from "../utils/features.js";
 import { compare } from "bcrypt";
 import { TryCatch } from "../middlewares/error.js"
 import { ErrorHandler } from "../utils/utility.js"
-
+import { cookieOptions } from "../utils/features.js";
 
 const newUser = TryCatch(async (req, res, next) => {
     const { name, username, password, bio } = req.body;
@@ -51,5 +51,27 @@ const getMyProfile = async (req, res, next) => {
     });
 }
 
+const logout = TryCatch(async (req, res) => {
+    return res
+        .status(200)
+        .cookie("convo-token", "", { ...cookieOptions, maxAge: 0 })
+        .json({
+            success: true,
+            message: "Logged out successfully",
+        });
+});
 
-export { newUser, login, getMyProfile }
+
+const searchUser = TryCatch(async (req, res) => {
+    const { name = "" } = req.query;
+  
+    
+  
+    return res.status(200).json({
+      success: true,
+      message:name,
+    });
+  });
+  
+
+export { newUser, login, getMyProfile,logout,searchUser }
