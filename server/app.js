@@ -2,6 +2,8 @@ import express from "express";
 import { createServer } from "http";
 import dotenv from "dotenv";
 import { connectDB } from "./utils/features.js";
+import cookieParser from "cookie-parser";
+import { errorMiddleware } from "./middlewares/error.js";
 
 //Import Routes
 import userRoute from "./routes/user.js";
@@ -23,7 +25,7 @@ const server = createServer(app);
 
 // Using Middlewares Here
 app.use(express.json());
-
+app.use(cookieParser()); //so that we can access cookie from request
 
 app.use("/api/v1/user", userRoute);
 
@@ -33,7 +35,7 @@ app.get("/", (req, res) => {
 });
 
 
-
+app.use(errorMiddleware);
 
 server.listen(port, () => {
     console.log(`Server is running on port ${port} `);

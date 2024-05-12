@@ -1,11 +1,11 @@
 import { User } from "../models/user.js";
 import { sendToken } from "../utils/features.js";
 import { compare } from "bcrypt";
-import {TryCatch} from "../middlewares/error.js"
-import {ErrorHandler} from "../utils/utility.js"
+import { TryCatch } from "../middlewares/error.js"
+import { ErrorHandler } from "../utils/utility.js"
 
 
-const newUser = TryCatch(async (req, res,next) => {
+const newUser = TryCatch(async (req, res, next) => {
     const { name, username, password, bio } = req.body;
 
     const avatar = {
@@ -25,7 +25,7 @@ const newUser = TryCatch(async (req, res,next) => {
 })
 
 
-const login = TryCatch(async (req, res,next) => {
+const login = TryCatch(async (req, res, next) => {
     const { username, password } = req.body;
 
     const user = await User.findOne({ username }).select("+password");
@@ -41,7 +41,14 @@ const login = TryCatch(async (req, res,next) => {
 })
 
 const getMyProfile = async (req, res, next) => {
+    const user = await User.findById(req.user);
 
+    if (!user) return next(new ErrorHandler("User not found", 404));
+
+    res.status(200).json({
+        success: true,
+        user,
+    });
 }
 
 
