@@ -9,6 +9,7 @@ import { errorMiddleware } from "./middlewares/error.js";
 import userRoute from "./routes/user.js";
 import chatRoute from "./routes/chat.js";
 
+
 //Setup dotenv
 dotenv.config({
     path: "./.env",
@@ -18,7 +19,6 @@ dotenv.config({
 const mongoURI = process.env.MONGO_URI;
 const port = process.env.PORT || 3000;
 connectDB(mongoURI);
-
 
 
 //Create Server
