@@ -1,9 +1,13 @@
 const ALERT = "ALERT";
 const REFETCH_CHATS = "REFETCH_CHATS";
 
-
+const NEW_ATTACHMENT = "NEW_ATTACHMENT";
+const NEW_MESSAGE_ALERT = "NEW_MESSAGE_ALERT"; //For showing no of new message
 
 export {
     ALERT,
-    REFETCH_CHATS
+    REFETCH_CHATS,
+    NEW_ATTACHMENT,
+    NEW_MESSAGE_ALERT
+
 }

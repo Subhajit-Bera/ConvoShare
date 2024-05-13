@@ -2,9 +2,10 @@ import { TryCatch } from "../middlewares/error.js";
 import { ErrorHandler } from "../utils/utility.js";
 import { Chat } from "../models/chat.js";
 import { emitEvent } from "../utils/features.js";
-import { ALERT, REFETCH_CHATS } from "../constants/events.js";
+import { ALERT, REFETCH_CHATS, NEW_ATTACHMENT, NEW_MESSAGE_ALERT } from "../constants/events.js";
 import { getOtherMember } from "../lib/helper.js";
 import { User } from "../models/user.js";
+import { Message } from "../models/message.js";
 
 const newGroupChat = TryCatch(async (req, res, next) => {
     const { name, members } = req.body;
@@ -227,7 +228,96 @@ const leaveGroup = TryCatch(async (req, res, next) => {
     });
 });
 
+const sendAttachments = TryCatch(async (req, res, next) => {
+    const { chatId } = req.body;
+
+    const files = req.files || [];
+
+    if (files.length < 1)
+        return next(new ErrorHandler("Please Upload Attachments", 400));
+
+    if (files.length > 5)
+        return next(new ErrorHandler("Files Can't be more than 5", 400));
+
+    const [chat, me] = await Promise.all([
+        Chat.findById(chatId),
+        User.findById(req.user, "name"),
+    ]);
+
+    if (!chat) return next(new ErrorHandler("Chat not found", 404));
+
+    if (files.length < 1)
+        return next(new ErrorHandler("Please provide attachments", 400));
+
+    //   Upload files here
+    const attachments = [];
+
+    //For creating and Adding message in db . While fetching we will populate the sender
+    const messageForDB = {
+        content: "",
+        attachments,
+        sender: me._id,
+        chat: chatId,
+    };
+
+    //Send via socket
+    const messageForRealTime = {
+        ...messageForDB,
+        sender: {
+            _id: me._id,
+            name: me.name, //In chat we are also showing the name
+            //We can alos pass the avater here and show it in chat
+        },
+    };
+
+    const message = await Message.create(messageForDB);
+
+    emitEvent(req, NEW_ATTACHMENT, chat.members, {
+        message: messageForRealTime,
+        chatId,
+    });
+
+    emitEvent(req, NEW_MESSAGE_ALERT, chat.members, { chatId });
+
+    return res.status(200).json({
+        success: true,
+        message,
+    });
+});
+
+
+const getChatDetails = TryCatch(async (req, res, next) => {
+    if (req.query.populate === "true") {
+        const chat = await Chat.findById(req.params.id)
+            .populate("members", "name avatar")
+            .lean();
+        //.lean(): chat becomes a js object rather than mongodb obj ,now we can change the obj without save it to db
+
+        if (!chat) return next(new ErrorHandler("Chat not found", 404));
+
+
+        chat.members = chat.members.map(({ _id, name, avatar }) => ({
+            _id,
+            name,
+            avatar: avatar.url,
+        }));
+        //If we save it it will update the database so we are using lean() above
+
+        return res.status(200).json({
+            success: true,
+            chat,
+        });
+    } else {
+        const chat = await Chat.findById(req.params.id);
+        if (!chat) return next(new ErrorHandler("Chat not found", 404));
+
+        return res.status(200).json({
+            success: true,
+            chat,
+        });
+    }
+});
 
 
 
-export { newGroupChat, getMyChats, getMyGroups, addMembers, removeMember, leaveGroup }
+export { newGroupChat, getMyChats, getMyGroups, addMembers, removeMember, leaveGroup, sendAttachments,getChatDetails }
