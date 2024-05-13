@@ -2,12 +2,13 @@ import express from "express";
 import { login,newUser,getMyProfile,logout,searchUser } from "../controllers/user.js";
 import { singleAvatar, attachmentsMulter } from "../middlewares/multer.js";
 import { isAuthenticated } from "../middlewares/auth.js";
+import { registerValidator,validateHandler,loginValidator } from "../lib/validators.js";
 
 const app = express.Router();
 
 
-app.post("/new",singleAvatar,newUser);
-app.post("/login",login);
+app.post("/new",singleAvatar,registerValidator(),validateHandler,newUser);
+app.post("/login",loginValidator(),validateHandler,login);
 
 
 //User have to be login
