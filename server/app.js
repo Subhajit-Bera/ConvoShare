@@ -20,6 +20,7 @@ dotenv.config({
 //Database connection
 const mongoURI = process.env.MONGO_URI;
 const port = process.env.PORT || 3000;
+const adminSecretKey = process.env.ADMIN_SECRET_KEY || sfusfusfusfusfu;
 connectDB(mongoURI);
 
 
@@ -46,3 +47,5 @@ app.use(errorMiddleware);
 server.listen(port, () => {
     console.log(`Server is running on port ${port} `);
 });
+
+export{adminSecretKey}
