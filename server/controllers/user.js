@@ -6,13 +6,16 @@ import { ErrorHandler } from "../utils/utility.js"
 import { cookieOptions } from "../utils/features.js";
 import { Chat } from "../models/chat.js";
 import { Request } from "../models/request.js";
-import { NEW_REQUEST,REFETCH_CHATS } from "../constants/events.js";
+import { NEW_REQUEST, REFETCH_CHATS } from "../constants/events.js";
 import { emitEvent } from "../utils/features.js";
 import { getOtherMember } from "../lib/helper.js";
 
 const newUser = TryCatch(async (req, res, next) => {
     const { name, username, password, bio } = req.body;
 
+    const file = req.file;
+
+    if (!file) return next(new ErrorHandler("Please Upload Avatar"));
     const avatar = {
         public_id: "dkuhfal",
         url: "jdfls",
@@ -196,42 +199,42 @@ const getMyNotifications = TryCatch(async (req, res) => {
 //one-on-one Chats
 const getMyFriends = TryCatch(async (req, res) => {
     const chatId = req.query.chatId;
-  
+
     const chats = await Chat.find({
-      members: req.user,
-      groupChat: false,
+        members: req.user,
+        groupChat: false,
     }).populate("members", "name avatar");
-  
+
     const friends = chats.map(({ members }) => {
-      const otherUser = getOtherMember(members, req.user);
-  
-      return {
-        _id: otherUser._id,
-        name: otherUser.name,
-        avatar: otherUser.avatar.url,
-      };
+        const otherUser = getOtherMember(members, req.user);
+
+        return {
+            _id: otherUser._id,
+            name: otherUser.name,
+            avatar: otherUser.avatar.url,
+        };
     });
 
-   //It is for group Chat : Adding members in Group 
-  
-    if (chatId) {
-      const chat = await Chat.findById(chatId);
-        
-      //If friend is already included in the group it will filter out that friend and show the remaining
-      const availableFriends = friends.filter(
-        (friend) => !chat.members.includes(friend._id)
-      );
-  
-      return res.status(200).json({
-        success: true,
-        friends: availableFriends,
-      });
-    } else {
-      return res.status(200).json({
-        success: true,
-        friends,
-      });
-    }
-  });
+    //It is for group Chat : Adding members in Group 
 
-export { newUser, login, getMyProfile, logout, searchUser, sendFriendRequest, acceptFriendRequest, getMyNotifications,getMyFriends }
+    if (chatId) {
+        const chat = await Chat.findById(chatId);
+
+        //If friend is already included in the group it will filter out that friend and show the remaining
+        const availableFriends = friends.filter(
+            (friend) => !chat.members.includes(friend._id)
+        );
+
+        return res.status(200).json({
+            success: true,
+            friends: availableFriends,
+        });
+    } else {
+        return res.status(200).json({
+            success: true,
+            friends,
+        });
+    }
+});
+
+export { newUser, login, getMyProfile, logout, searchUser, sendFriendRequest, acceptFriendRequest, getMyNotifications, getMyFriends }
