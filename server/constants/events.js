@@ -6,11 +6,14 @@ const NEW_MESSAGE_ALERT = "NEW_MESSAGE_ALERT"; //For showing no of new message
 
 const NEW_REQUEST = "NEW_REQUEST";
 
+const NEW_MESSAGE="NEW_MESSAGE";
+
 export {
     ALERT,
     REFETCH_CHATS,
     NEW_ATTACHMENT,
     NEW_MESSAGE_ALERT,
-    NEW_REQUEST
+    NEW_REQUEST,
+    NEW_MESSAGE
 
 }
