@@ -11,6 +11,7 @@ import Profile from '../specific/Profile';
 import { useDispatch,useSelector } from 'react-redux';
 import { useMyChatsQuery } from "../../redux/api/api";
 import { setIsMobile } from '../../redux/reducers/misc';
+import { useErrors } from '../../hooks/hook';
 
 const AppLayout = () => (WrappedComponent) => {
     return (props) => {
@@ -22,6 +23,8 @@ const AppLayout = () => (WrappedComponent) => {
         const { isMobile } = useSelector((state) => state.misc);
 
         const { isLoading, data, isError, error, refetch } = useMyChatsQuery("");
+
+        useErrors([{ isError, error }]);
 
         const handleMobileClose = () => dispatch(setIsMobile(false));
         const handleDeleteChat = (e, _id, groupChat) => {
