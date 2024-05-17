@@ -24,7 +24,7 @@ import {
 import { useNavigate, useSearchParams } from "react-router-dom";
 import AvatarCard from "../components/shared/AvatarCard";
 import { Link } from "../components/styles/StyledComponents";
-import { bgc, matBlack, bgreen, bgreen2,grayColor } from '../constants/color';
+import { bgc, matBlack, bgreen, bgreen2, grayColor } from '../constants/color';
 import { sampleChats, sampleUsers } from '../constants/sampleData'
 import UserItem from '../components/shared/UserItem';
 
@@ -82,8 +82,8 @@ const Groups = () => {
   };
 
 
-  const removeMemberHandler=(id)=>{
-    console.log("Remove member",id)
+  const removeMemberHandler = (id) => {
+    console.log("Remove member", id)
   }
 
 
@@ -260,7 +260,7 @@ const Groups = () => {
                 margin={"1rem"}
                 alignSelf={"center"}
                 variant="h5"
-                
+
               >
                 Members
               </Typography>
@@ -275,8 +275,8 @@ const Groups = () => {
                   xs: "0",
                   md: "1rem 4rem",
                 }}
-                bgcolor={bgc }
-                boxShadow= {"rgba(0, 0, 0, 0.35) 0px 5px 15px"}
+                bgcolor={bgc}
+                boxShadow={"rgba(0, 0, 0, 0.35) 0px 5px 15px"}
                 borderRadius={"10px"}
                 // spacing={"2rem"}
                 height={"50vh"}
@@ -291,14 +291,14 @@ const Groups = () => {
                     key={i._id}
                     isAdded
                     styling={{
-              
+
                       padding: "5px",
-                      bgcolor:grayColor
+                      bgcolor: grayColor
                     }}
                     handler={removeMemberHandler}
                   />
-                  ))
-                }  
+                ))
+                }
               </Stack>
 
               {ButtonGroup}
@@ -359,8 +359,15 @@ const GroupsList = ({ w = "100%", myGroups = [], chatId }) => (
       // backgroundImage: bgGradient,
       height: "100vh",
       overflow: "auto",
+      '&amp;::-webkit-scrollbar': {
+        display: 'none',
+      },
+      /* Hide scrollbar for IE, Edge and Firefox */
+      msOverflowStyle: 'none',  /* IE and Edge */
+      scrollbarWidth: 'none',  /* Firefox */
+
     }}
-    
+
   >
     {myGroups.length > 0 ? (
       myGroups.map((group) => (

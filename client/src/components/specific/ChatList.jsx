@@ -17,11 +17,21 @@ const ChatList = ({
 }) => {
     return (
         // overflow={"auto"} height={"100%"}
-        <Stack width={w} direction={"column"} overflow={"auto"} height={"100%"}>
+        <Stack width={w} direction={"column"} overflow={"auto"} height={"100%"}
+            sx={{
+                /* Hide scrollbar for Chrome, Safari and Opera */
+                '&amp;::-webkit-scrollbar': {
+                    display: 'none',
+                },
+                /* Hide scrollbar for IE, Edge and Firefox */
+                msOverflowStyle: 'none',  /* IE and Edge */
+                scrollbarWidth: 'none',  /* Firefox */
+            }}
+        >
             {
-                chats.map((data,index) => {
+                chats.map((data, index) => {
 
-                    const { avatar, name,_id,groupChat, members } = data;
+                    const { avatar, name, _id, groupChat, members } = data;
 
                     const newMessageAlert = newMessagesAlert.find(
                         ({ chatId }) => chatId === _id
@@ -31,7 +41,7 @@ const ChatList = ({
                         onlineUsers.includes(member)
                     );
 
-                    {/* return<ChatItem/> */}
+                    {/* return<ChatItem/> */ }
 
                     return <ChatItem
                         index={index}

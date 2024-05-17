@@ -9,6 +9,7 @@ import {
   TextField,
   Typography,
 } from "@mui/material";
+import { bgreen2, bgreen } from '../constants/color';
 
 import { CameraAlt as CameraAltIcon } from "@mui/icons-material";
 import { VisuallyHiddenInput } from "../components/styles/StyledComponents";
@@ -31,7 +32,7 @@ const Login = () => {
   const toggleLogin = () => setIsLogin((prev) => !prev);
 
   const avatar = useFileHandler("single");
-  const dispatch=useDispatch();
+  const dispatch = useDispatch();
 
   const handleLogin = async (e) => {
     e.preventDefault();
@@ -50,8 +51,8 @@ const Login = () => {
       const { data } = await axios.post(
         `${server}/api/v1/user/login`,
         {
-          username:username,
-          password:password
+          username: username,
+          password: password
         },
         config
       );
@@ -139,6 +140,7 @@ const Login = () => {
                   margin="normal"
                   variant="outlined"
                   value={username}
+                  color='success'
                   onChange={(e) => setUsername(e.target.value)}
                 />
 
@@ -150,15 +152,20 @@ const Login = () => {
                   margin="normal"
                   variant="outlined"
                   value={password}
+                  color='success'
                   onChange={(e) => setPassword(e.target.value)}
                 />
 
                 <Button
                   sx={{
                     marginTop: "1rem",
+                    bgcolor: bgreen2,
+                    color: 'white',
+                    "&:hover": {
+                      bgcolor: bgreen,
+                    },
                   }}
                   variant="contained"
-                  color="primary"
                   type="submit"
                   fullWidth
 
@@ -173,7 +180,12 @@ const Login = () => {
                 <Button
 
                   fullWidth
-                  variant="text"
+                  sx={{
+                    color: "#4CAF50",
+                    "&:hover": {
+                      bgcolor: "#EBF3E8",
+                    },
+                  }}
                   onClick={toggleLogin}
                 >
                   Sign Up Instead
@@ -242,6 +254,7 @@ const Login = () => {
                   label="Name"
                   margin="normal"
                   variant="outlined"
+                  color='success'
                   value={name}
                   onChange={(e) => setName(e.target.value)}
                 />
@@ -252,6 +265,7 @@ const Login = () => {
                   label="Bio"
                   margin="normal"
                   variant="outlined"
+                  color='success'
                   value={bio}
                   onChange={(e) => setBio(e.target.value)}
                 />
@@ -261,6 +275,7 @@ const Login = () => {
                   label="Username"
                   margin="normal"
                   variant="outlined"
+                  color='success'
                   value={username}
                   onChange={(e) => setUsername(e.target.value)}
                 />
@@ -278,6 +293,7 @@ const Login = () => {
                   type="password"
                   margin="normal"
                   variant="outlined"
+                  color='success'
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
                 />
@@ -285,9 +301,13 @@ const Login = () => {
                 <Button
                   sx={{
                     marginTop: "1rem",
+                    bgcolor: bgreen2,
+                    color: 'white',
+                    "&:hover": {
+                      bgcolor: bgreen,
+                    },
                   }}
                   variant="contained"
-                  color="primary"
                   type="submit"
                   fullWidth
 
@@ -302,7 +322,12 @@ const Login = () => {
                 <Button
 
                   fullWidth
-                  variant="text"
+                  sx={{
+                    color: "#4CAF50",
+                    "&:hover": {
+                      bgcolor: "#EBF3E8",
+                    },
+                  }}
                   onClick={toggleLogin}
                 >
                   Login Instead
