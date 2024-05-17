@@ -24,13 +24,14 @@ import { userExists } from "../redux/reducers/auth";
 const Login = () => {
 
   const [isLogin, setIsLogin] = useState(true);
-  const [name, setName] = useState();
-  const [bio, setBio] = useState();
-  const [username, setUsername] = useState();
-  const [password, setPassword] = useState();
+  const [name, setName] = useState("");
+  const [bio, setBio] = useState("");
+  const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
   const toggleLogin = () => setIsLogin((prev) => !prev);
 
   const avatar = useFileHandler("single");
+  const dispatch=useDispatch();
 
   const handleLogin = async (e) => {
     e.preventDefault();
@@ -38,19 +39,19 @@ const Login = () => {
     // const toastId = toast.loading("Logging In...");
 
     // setIsLoading(true);
-    // const config = {
-    //   withCredentials: true,
-    //   headers: {
-    //     "Content-Type": "application/json",
-    //   },
-    // };
+    const config = {
+      withCredentials: true,
+      headers: {
+        "Content-Type": "application/json",
+      },
+    };
 
     try {
       const { data } = await axios.post(
         `${server}/api/v1/user/login`,
         {
-          username,
-          password
+          username:username,
+          password:password
         },
         config
       );
@@ -66,10 +67,10 @@ const Login = () => {
 
     const formData = new FormData();
     formData.append("avatar", avatar.file);
-    formData.append("name", name.value);
-    formData.append("bio", bio.value);
-    formData.append("username", username.value);
-    formData.append("password", password.value);
+    formData.append("name", name);
+    formData.append("bio", bio);
+    formData.append("username", username);
+    formData.append("password", password);
 
     const config = {
       withCredentials: true,
@@ -97,7 +98,7 @@ const Login = () => {
   return (
     <div
       style={{
-        backgroundImage: "linear-gradient(rgb(212 236 233), rgb(80 105 199))"
+        backgroundImage: "linear-gradient(to right bottom, #91c788, #bcd097, #ddd9af, #f3e6cd, #fef5ed)"
       }}
     >
       <Container

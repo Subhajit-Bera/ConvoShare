@@ -25,22 +25,23 @@ const MessagesManagement = lazy(() =>
 );
 
 
-const user = true;
+
 const App = () => {
-  const { user, loader } = useSelector((state) => state.auth);
+  const { user,loader } = useSelector((state) => state.auth);
 
   const dispatch = useDispatch();
 
   useEffect(() => {
+    console.log(server);
     axios
-      .get(`${server}/api/v1/user/me`, { withCredentials: true })
-      .then(({ data }) => dispatch(userExists(data.user)))
-      .catch((err) => dispatch(userNotExists()));
+      .get(`${server}/api/v1/user/me`,{ withCredentials: true })
+      .then(({data}) =>  dispatch(userExists(data.user)))
+      .catch((err) =>dispatch(userNotExists()));
   }, [dispatch]);
 
 
 
-  return loader ? (<LayoutLoader />) : (
+  return loader ? (<LayoutLoader />) :(
     <BrowserRouter>
       <Suspense fallback={<LayoutLoader />}>
         <Routes>

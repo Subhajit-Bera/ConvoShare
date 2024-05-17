@@ -11,6 +11,8 @@ import { v4 as uuid } from "uuid";
 import { getSockets } from "./lib/helper.js";
 import { Message } from "./models/message.js";
 import cors from "cors";
+import { v2 as cloudinary } from "cloudinary";
+import { corsOptions } from "./constants/config.js";
 
 
 //Import Routes
@@ -34,6 +36,13 @@ const userSocketIDs = new Map(); //mapping userId(active/online) with socket id
 
 connectDB(mongoURI);
 
+//Cloudinary setup
+cloudinary.config({
+    cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
+    api_key: process.env.CLOUDINARY_API_KEY,
+    api_secret: process.env.CLOUDINARY_API_SECRET,
+  });
+
 
 //Create Server
 const app = express();
@@ -43,9 +52,10 @@ const io = new Server(server, {});
 // Using Middlewares Here
 app.use(express.json());
 app.use(cookieParser()); //so that we can access cookie from request
+// app.use(cors(corsOptions));
 app.use(cors({
-    origin:["http://localhost:5173/","http://localhost:4173/",process.env.CLIENT_URL],
-    credentials:true
+    origin:["http://localhost:5173","http://localhost:4173",process.env.CLIENT_UR],
+    credentials:true,
 }))
 
 app.use("/api/v1/user", userRoute);
