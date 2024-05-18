@@ -2,7 +2,7 @@ import React, { memo } from 'react'
 import { Add as AddIcon, Remove as RemoveIcon } from "@mui/icons-material";
 import { Avatar, IconButton, ListItem, Stack, Typography } from "@mui/material";
 import { bgreen, bgreen2 } from '../../constants/color';
-
+import { transformImage } from "../../lib/features";
 const UserItem = ({
     user,
     handler,
@@ -28,7 +28,7 @@ const UserItem = ({
                 }}
                 {...styling}
             >
-                <Avatar />
+                <Avatar src={transformImage(avatar)} />
 
                 <Typography
                     variant="body1"
@@ -41,6 +41,7 @@ const UserItem = ({
                         textOverflow: "ellipsis",
                         width: "100%",
                         // padding:"10px"
+                        fontSize:"14px"
 
                     }}
                 >

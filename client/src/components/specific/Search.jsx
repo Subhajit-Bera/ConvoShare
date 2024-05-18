@@ -12,27 +12,34 @@ import UserItem from '../shared/UserItem';
 import { sampleUsers } from '../../constants/sampleData';
 import { useDispatch, useSelector } from "react-redux";
 import { setIsSearch } from "../../redux/reducers/misc";
-import {useLazySearchUserQuery} from "../../redux/api/api";
+import { useLazySearchUserQuery, useSendFriendRequestMutation } from "../../redux/api/api";
+import { useAsyncMutation } from '../../hooks/hook';
+
+
 const Search = () => {
   const [search, setSearch] = useState("");
   const [users, setUsers] = useState([]);
   const dispatch = useDispatch();
 
-  const [searchUser] = useLazySearchUserQuery();
-
   const { isSearch } = useSelector((state) => state.misc);
 
-  let isLoadingSendFriendRequest = false;
+  const [searchUser] = useLazySearchUserQuery();
 
-  
+  const [sendFriendRequest, isLoadingSendFriendRequest] = useAsyncMutation(
+    useSendFriendRequestMutation
+  );
+
+  //Send Chat Request
+  const addFriendHandler = async (id) => {
+    await sendFriendRequest("Sending friend request...", { userId: id });
+  };
+
+  //Close search Dialog
   const searchCloseHandler = () => dispatch(setIsSearch(false));
 
-  const addFriendHandler = (id) => {
-    console.log(id);
-  }
-
+  //Search user
   useEffect(() => {
-    if(search !== ""){
+    if (search !== "") {
       const timeOutId = setTimeout(() => {
         searchUser(search)
           .then(({ data }) => setUsers(data.users))
@@ -43,7 +50,7 @@ const Search = () => {
         clearTimeout(timeOutId);
       };
     }
-  
+
   }, [search]);
 
   return (

@@ -18,7 +18,7 @@ const fileFormat = (url = "") => {
     return "file";
 };
 
-const transformImage = (url = "") => url;
+const transformImage = (url = "",width=100) => url;
 
 
 const getLast7Days = () => {
