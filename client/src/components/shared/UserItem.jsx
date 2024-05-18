@@ -1,14 +1,14 @@
 import React, { memo } from 'react'
 import { Add as AddIcon, Remove as RemoveIcon } from "@mui/icons-material";
 import { Avatar, IconButton, ListItem, Stack, Typography } from "@mui/material";
-import { bgreen,bgreen2 } from '../../constants/color'; 
+import { bgreen, bgreen2 } from '../../constants/color';
 
 const UserItem = ({
     user,
     handler,
     handlerIsLoading,
-    isAdded=false,
-    styling={}
+    isAdded = false,
+    styling = {}
 }) => {
     const { name, _id, avatar } = user;
     return (
@@ -16,11 +16,15 @@ const UserItem = ({
             <Stack
                 direction={"row"}
                 alignItems={"center"}
-                spacing={"0.1rem"}
+                spacing={"1rem"}
                 width={"100%"}
+                // padding={"1rem"}
                 sx={{
-                    boxShadow: "2px 2px 4px rgba(0, 0, 0, 0.2)", 
-                    borderRadius: "20px",
+                    "&:hover": {
+                        boxShadow: "2px 2px 4px rgba(0, 0, 0, 0.2)",
+                        borderRadius: "20px",
+                    },
+
                 }}
                 {...styling}
             >
@@ -36,7 +40,7 @@ const UserItem = ({
                         overflow: "hidden",
                         textOverflow: "ellipsis",
                         width: "100%",
-                        padding:"10px"
+                        // padding:"10px"
 
                     }}
                 >
@@ -46,7 +50,7 @@ const UserItem = ({
                 <IconButton
                     size="small"
                     sx={{
-                        
+
                         bgcolor: isAdded ? "error.main" : bgreen2,
                         color: "white",
                         "&:hover": {
@@ -57,10 +61,10 @@ const UserItem = ({
                     disabled={handlerIsLoading}
                 >
                     {
-                        isAdded ? <RemoveIcon/> : <AddIcon />
+                        isAdded ? <RemoveIcon /> : <AddIcon />
                     }
 
-                    
+
                 </IconButton>
             </Stack>
         </ListItem>

@@ -4,7 +4,7 @@ import { server } from "../../constants/config";
 const api = createApi({
     reducerPath: "api",
     baseQuery: fetchBaseQuery({ baseUrl: `${server}/api/v1/` }),
-    tagTypes: ["Chat"], // Chat: caching chat data
+    tagTypes: ["Chat","User"], // Chat: caching chat data
   
     endpoints: (builder) => ({
       myChats: builder.query({
@@ -14,10 +14,19 @@ const api = createApi({
         }),
         providesTags: ["Chat"],
       }),
-      invalidateTags:["Chat"]  // chat cache will be refeching data
+      // invalidateTags:["Chat"]  // chat cache will be refeching data
+
+      searchUser: builder.query({
+        query: (name) => ({
+          url: `user/search?name=${name}`,
+          credentials: "include",
+        }),
+        providesTags: ["User"],
+      }),
+      
     })    
 })
 export default api;
 
 
-export const {useMyChatsQuery}=api;
+export const {useMyChatsQuery,useLazySearchUserQuery}=api;
