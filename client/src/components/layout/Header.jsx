@@ -30,20 +30,15 @@ import { setIsMobile,setIsSearch } from '../../redux/reducers/misc';
 const SearchDialog = lazy(() => import("../specific/Search"));
 const NotifcationDialog = lazy(() => import("../specific/Notifications"));
 const NewGroupDialog = lazy(() => import("../specific/NewGroup"));
-
+import { setIsNotification } from '../../redux/reducers/misc';
 
 const Header = () => {
 
-  
-  const [isNewGroup, setIsNewGroup] = useState(false);
-  const [isNotification, setIsNotification] = useState(false);
-
+  const {isSearch,isNotification} = useSelector((state) => state.misc);
   const navigate = useNavigate();
   const dispatch=useDispatch();
 
-  
-
-  const {isSearch} = useSelector((state) => state.misc);
+  const [isNewGroup, setIsNewGroup] = useState(false);
 
   const handleMobile = () => {
     dispatch(setIsMobile(true));
@@ -56,7 +51,7 @@ const Header = () => {
     setIsNewGroup((prev) => !prev)
   }
   const openNotification = () => {
-    setIsNotification((prev) => !prev);
+    dispatch(setIsNotification(true));
   }
   const logoutHandler = async() => {
     

@@ -15,7 +15,6 @@ const api = createApi({
       }),
       providesTags: ["Chat"],
     }),
-    // invalidateTags:["Chat"]  // chat cache will be refeching data
 
 
     //Search User
@@ -39,9 +38,34 @@ const api = createApi({
       invalidatesTags: ["User"],
     }),
 
+    //Get Notifications 
+    getNotifications: builder.query({
+      query: () => ({
+        url: `user/notifications`,
+        credentials: "include",
+      }),
+      keepUnusedDataFor: 0, //No caching for notification
+    }),
+
+    acceptFriendRequest: builder.mutation({
+      query: (data) => ({
+        url: "user/acceptrequest",
+        method: "PUT",
+        credentials: "include",
+        body: data,
+      }),
+      invalidatesTags: ["Chat"], //User who accept the request his chat need to refetch
+    }),
+
   })
 })
 export default api;
 
 
-export const { useMyChatsQuery, useLazySearchUserQuery,useSendFriendRequestMutation, } = api;
+export const {
+  useMyChatsQuery,
+  useLazySearchUserQuery,
+  useSendFriendRequestMutation,
+  useGetNotificationsQuery,
+  useAcceptFriendRequestMutation
+} = api;
