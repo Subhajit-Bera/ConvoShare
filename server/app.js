@@ -6,14 +6,14 @@ import cookieParser from "cookie-parser";
 import { errorMiddleware } from "./middlewares/error.js";
 // import { createUser } from "./seeders/user.js"; for creave fake user : createUser(10);
 import { Server } from "socket.io";
-import { NEW_MESSAGE,NEW_MESSAGE_ALERT } from "./constants/events.js";
+import { NEW_MESSAGE, NEW_MESSAGE_ALERT } from "./constants/events.js";
 import { v4 as uuid } from "uuid";
 import { getSockets } from "./lib/helper.js";
 import { Message } from "./models/message.js";
 import cors from "cors";
 import { v2 as cloudinary } from "cloudinary";
 import { corsOptions } from "./constants/config.js";
-
+import { socketAuthenticator } from "./middlewares/auth.js";
 
 //Import Routes
 import userRoute from "./routes/user.js";
@@ -41,22 +41,21 @@ cloudinary.config({
     cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
     api_key: process.env.CLOUDINARY_API_KEY,
     api_secret: process.env.CLOUDINARY_API_SECRET,
-  });
+});
 
 
 //Create Server
 const app = express();
 const server = createServer(app);
-const io = new Server(server, {});
+const io = new Server(server, {
+    cors: corsOptions,
+});
 
 // Using Middlewares Here
 app.use(express.json());
 app.use(cookieParser()); //so that we can access cookie from request
 // app.use(cors(corsOptions));
-app.use(cors({
-    origin:["http://localhost:5173","http://localhost:4173",process.env.CLIENT_UR],
-    credentials:true,
-}))
+app.use(cors(corsOptions))
 
 app.use("/api/v1/user", userRoute);
 app.use("/api/v1/chat", chatRoute);
@@ -66,13 +65,22 @@ app.get("/", (req, res) => {
     res.send("Hello World");
 });
 
+//Socket Middleware
+io.use((socket, next) => {
+    cookieParser()(
+        socket.request,
+        socket.request.res,
+        async (err) => await socketAuthenticator(err, socket, next)
+    );
+});
+
+
+
 //Socket IO
 
 io.on("connection", (socket) => {
-    const user = {
-        _id: "sadsad",
-        name: "Zinku"
-    }
+    const user =socket.user;
+    console.log(user);
 
     //mapping user._id with socket.id after the user connected with socket
     userSocketIDs.set(user._id.toString(), socket.id);

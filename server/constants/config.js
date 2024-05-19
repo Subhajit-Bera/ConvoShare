@@ -8,6 +8,7 @@ const corsOptions = {
     credentials: true,
 };
 
+const CONVO_TOKEN = "convo-token";
 
 
-export { corsOptions };
+export { corsOptions,CONVO_TOKEN };
