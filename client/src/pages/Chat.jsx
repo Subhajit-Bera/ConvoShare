@@ -10,19 +10,89 @@ import AppLayout from '../components/layout/AppLayout'
 import { AttachFile as AttachFileIcon, Send as SendIcon, } from "@mui/icons-material";
 import { InputBox } from "../components/styles/StyledComponents";
 import FileMenu from "../components/dialogs/FileMenu";
-import { grayColor,bgreen,bgc, bgreen2 } from "../constants/color";
+import { grayColor, bgreen, bgc, bgreen2 } from "../constants/color";
 import { sampleMessage } from '../constants/sampleData';
 import MessageComponent from '../components/shared/MessageComponent';
+import { getSocket } from '../socket';
+import { NEW_MESSAGE } from '../constants/events';
+import { useChatDetailsQuery, useGetMessagesQuery } from '../redux/api/api';
+import { useErrors, useSocketEvents } from "../hooks/hook";
+import { useInfiniteScrollTop } from "6pp";
 
 
-const user={
-    _id:"sdfsdfsdf",
-    name:"Subha Bera"
-}
 
-const Chat = () => {
+
+const Chat = ({ chatId, user }) => {
     const containerRef = useRef(null);
-    return (
+    const socket = getSocket();
+
+
+
+    const [message, setMessage] = useState("");
+    const [messages, setMessages] = useState([]);
+    const [page, setPage] = useState(1);
+
+    //skip : !chatId : means if we don' thave chatId then skip this operation
+    const chatDetails = useChatDetailsQuery({ chatId, skip: !chatId });
+    const members = chatDetails?.data?.chat?.members;
+
+    //Fetching old messges regarding pages
+    const oldMessagesChunk = useGetMessagesQuery({ chatId, page });
+    
+    
+    //Use InfineScroll
+    const { data: oldMessages, setData: setOldMessages } = useInfiniteScrollTop(
+        containerRef,
+        oldMessagesChunk.data?.totalPages,
+        page,
+        setPage,
+        oldMessagesChunk.data?.messages
+    );
+    console.log(page);
+    console.log(oldMessages);
+
+    const errors = [
+        { isError: chatDetails.isError, error: chatDetails.error },
+        { isError: oldMessagesChunk.isError, error: oldMessagesChunk.error },
+    ];
+
+    
+
+    const submitHandler = (e) => {
+        e.preventDefault();
+        // console.log(message);
+        if (!message.trim()) return;
+
+        // Emitting the message to the server
+        socket.emit(NEW_MESSAGE, { chatId, members, message });
+        setMessage("");
+    };
+
+    const newMessagesListener = useCallback(
+        (data) => {
+            if (data.chatId !== chatId) return;
+
+            setMessages((prev) => [...prev, data.message]);
+        },
+        [chatId]
+    );
+
+    //Create object of evenets 
+    const eventHandler = {
+        [NEW_MESSAGE]: newMessagesListener,
+    };
+
+    //Sending event to this custom hook for listing to these events
+    useSocketEvents(socket, eventHandler);
+
+    useErrors(errors);
+
+    //Fetched old messages with infine scroll + realtime socket message
+    const allMessages = [...oldMessages, ...messages];
+
+    return chatDetails.isLoading ? (
+        <Skeleton />
+    ) : (
         <>
             <Stack
                 ref={containerRef}
@@ -36,11 +106,10 @@ const Chat = () => {
                     overflowY: "auto",
                 }}
             >
-            {sampleMessage.map((i)=>(
-                    <MessageComponent key={i._id} message={i} user={user}/>
+                {allMessages.map((i) => (
+                    <MessageComponent key={i._id} message={i} user={user} />
                 ))
-            }
-                
+                }
 
             </Stack>
 
@@ -49,6 +118,7 @@ const Chat = () => {
                 style={{
                     height: "10%",
                 }}
+                onSubmit={submitHandler}
             >
                 <Stack
                     direction={"row"}
@@ -65,7 +135,7 @@ const Chat = () => {
                             left: "1rem",
                             rotate: "30deg",
                         }}
-            
+
                     >
                         <AttachFileIcon />
                     </IconButton>
@@ -74,9 +144,11 @@ const Chat = () => {
                     {/* Input Box for message Input : Styled Icon */}
                     <InputBox
                         placeholder="Type Message Here..."
+                        value={message}
+                        onChange={e => setMessage(e.target.value)}
                     />
 
-                    
+
                     {/* Message Send Button */}
                     <IconButton
                         type="submit"

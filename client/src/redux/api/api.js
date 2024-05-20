@@ -4,7 +4,7 @@ import { server } from "../../constants/config";
 const api = createApi({
   reducerPath: "api",
   baseQuery: fetchBaseQuery({ baseUrl: `${server}/api/v1/` }),
-  tagTypes: ["Chat", "User"], // Chat: caching chat data
+  tagTypes: ["Chat", "User","Message"], // Chat: caching chat data
 
   endpoints: (builder) => ({
     //Fetch My chats
@@ -57,6 +57,27 @@ const api = createApi({
       invalidatesTags: ["Chat"], //User who accept the request his chat need to refetch
     }),
 
+    chatDetails: builder.query({
+      query: ({ chatId, populate = false }) => {
+        let url = `chat/${chatId}`;
+        if (populate) url += "?populate=true";
+
+        return {
+          url,
+          credentials: "include",
+        };
+      },
+      providesTags: ["Chat"],
+    }),
+
+    getMessages: builder.query({
+      query: ({ chatId, page }) => ({
+        url: `chat/message/${chatId}?page=${page}`,
+        credentials: "include",
+      }),
+      providesTags: ["Message"],
+    }),
+
   })
 })
 export default api;
@@ -67,5 +88,7 @@ export const {
   useLazySearchUserQuery,
   useSendFriendRequestMutation,
   useGetNotificationsQuery,
-  useAcceptFriendRequestMutation
+  useAcceptFriendRequestMutation,
+  useChatDetailsQuery,
+  useGetMessagesQuery,
 } = api;

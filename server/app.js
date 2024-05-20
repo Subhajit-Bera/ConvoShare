@@ -70,7 +70,7 @@ io.use((socket, next) => {
     cookieParser()(
         socket.request,
         socket.request.res,
-        async (err) => await socketAuthenticator(err, socket, next)
+        async (err) => await socketAuthenticator(err, socket, next) //socket authenetication
     );
 });
 
@@ -79,8 +79,11 @@ io.use((socket, next) => {
 //Socket IO
 
 io.on("connection", (socket) => {
+    //Get user from socket after authentication
     const user =socket.user;
-    console.log(user);
+    
+    
+   //console.log(user);
 
     //mapping user._id with socket.id after the user connected with socket
     userSocketIDs.set(user._id.toString(), socket.id);

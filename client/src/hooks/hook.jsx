@@ -46,4 +46,20 @@ const useAsyncMutation = (mutatationHook) => {
   return [executeMutation, isLoading, data];
 };
 
-export { useErrors,useAsyncMutation };
+//Get an obj of handler and it will loop through each events and listen to it and off it 
+const useSocketEvents = (socket, handlers) => {
+  useEffect(() => {
+    Object.entries(handlers).forEach(([event, handler]) => {
+      socket.on(event, handler);
+    });
+
+    return () => {
+      Object.entries(handlers).forEach(([event, handler]) => {
+        socket.off(event, handler);
+      });
+    };
+  }, [socket, handlers]);
+};
+
+
+export { useErrors,useAsyncMutation,useSocketEvents };
