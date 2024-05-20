@@ -51,6 +51,9 @@ const io = new Server(server, {
     cors: corsOptions,
 });
 
+//Set io in app so that we can use io else where (i.e : emitEvent(features.js))
+app.set("io", io);
+
 // Using Middlewares Here
 app.use(express.json());
 app.use(cookieParser()); //so that we can access cookie from request
@@ -87,7 +90,8 @@ io.on("connection", (socket) => {
 
     //mapping user._id with socket.id after the user connected with socket
     userSocketIDs.set(user._id.toString(), socket.id);
-    console.log(userSocketIDs);
+
+    // console.log(userSocketIDs);
     // console.log("a user connected", socket.id);
 
     socket.on(NEW_MESSAGE, async ({ chatId, members, message }) => {

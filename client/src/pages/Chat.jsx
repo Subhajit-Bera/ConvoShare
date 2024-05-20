@@ -18,19 +18,19 @@ import { NEW_MESSAGE } from '../constants/events';
 import { useChatDetailsQuery, useGetMessagesQuery } from '../redux/api/api';
 import { useErrors, useSocketEvents } from "../hooks/hook";
 import { useInfiniteScrollTop } from "6pp";
-
-
-
+import { useDispatch } from 'react-redux';
+import { setIsFileMenu } from "../redux/reducers/misc";
 
 const Chat = ({ chatId, user }) => {
     const containerRef = useRef(null);
     const socket = getSocket();
-
+    const dispatch = useDispatch();
 
 
     const [message, setMessage] = useState("");
     const [messages, setMessages] = useState([]);
     const [page, setPage] = useState(1);
+    const [fileMenuAnchor, setFileMenuAnchor] = useState(null);
 
     //skip : !chatId : means if we don' thave chatId then skip this operation
     const chatDetails = useChatDetailsQuery({ chatId, skip: !chatId });
@@ -38,8 +38,8 @@ const Chat = ({ chatId, user }) => {
 
     //Fetching old messges regarding pages
     const oldMessagesChunk = useGetMessagesQuery({ chatId, page });
-    
-    
+
+
     //Use InfineScroll
     const { data: oldMessages, setData: setOldMessages } = useInfiniteScrollTop(
         containerRef,
@@ -56,7 +56,7 @@ const Chat = ({ chatId, user }) => {
         { isError: oldMessagesChunk.isError, error: oldMessagesChunk.error },
     ];
 
-    
+
 
     const submitHandler = (e) => {
         e.preventDefault();
@@ -76,6 +76,11 @@ const Chat = ({ chatId, user }) => {
         },
         [chatId]
     );
+
+    const handleFileOpen = (e) => {
+        dispatch(setIsFileMenu(true));
+        setFileMenuAnchor(e.currentTarget);
+    };
 
     //Create object of evenets 
     const eventHandler = {
@@ -135,7 +140,7 @@ const Chat = ({ chatId, user }) => {
                             left: "1rem",
                             rotate: "30deg",
                         }}
-
+                        onClick={handleFileOpen}
                     >
                         <AttachFileIcon />
                     </IconButton>
@@ -169,7 +174,7 @@ const Chat = ({ chatId, user }) => {
                 </Stack>
 
             </form>
-
+            <FileMenu anchorE1={fileMenuAnchor} chatId={chatId}/>
         </>
     )
 

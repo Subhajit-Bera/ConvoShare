@@ -1,8 +1,8 @@
 import { TryCatch } from "../middlewares/error.js";
 import { ErrorHandler } from "../utils/utility.js";
 import { Chat } from "../models/chat.js";
-import { emitEvent, deletFilesFromCloudinary } from "../utils/features.js";
-import { ALERT, REFETCH_CHATS, NEW_ATTACHMENT, NEW_MESSAGE_ALERT } from "../constants/events.js";
+import { emitEvent, deletFilesFromCloudinary,uploadFilesToCloudinary } from "../utils/features.js";
+import { ALERT, REFETCH_CHATS, NEW_MESSAGE, NEW_MESSAGE_ALERT } from "../constants/events.js";
 import { getOtherMember } from "../lib/helper.js";
 import { User } from "../models/user.js";
 import { Message } from "../models/message.js";
@@ -251,7 +251,7 @@ const sendAttachments = TryCatch(async (req, res, next) => {
         return next(new ErrorHandler("Please provide attachments", 400));
 
     //   Upload files here
-    const attachments = [];
+    const attachments = await uploadFilesToCloudinary(files);
 
     //For creating and Adding message in db . While fetching we will populate the sender
     const messageForDB = {
@@ -273,7 +273,7 @@ const sendAttachments = TryCatch(async (req, res, next) => {
 
     const message = await Message.create(messageForDB);
 
-    emitEvent(req, NEW_ATTACHMENT, chat.members, {
+    emitEvent(req, NEW_MESSAGE, chat.members, {
         message: messageForRealTime,
         chatId,
     });
