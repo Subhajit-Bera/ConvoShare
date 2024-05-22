@@ -1,4 +1,4 @@
-import React from 'react'
+import React,{ useCallback, useEffect, useRef, useState } from 'react'
 import { Grid, Skeleton, Drawer } from "@mui/material";
 import ChatList from '../specific/ChatList';
 import { useParams } from "react-router-dom";
@@ -8,11 +8,22 @@ import Header from './Header'
 import Title from "../shared/Title";
 import Profile from '../specific/Profile';
 
-import { useDispatch,useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { useMyChatsQuery } from "../../redux/api/api";
 import { setIsMobile } from '../../redux/reducers/misc';
-import { useErrors } from '../../hooks/hook';
+import { useErrors,useSocketEvents } from '../../hooks/hook';
 import { getSocket } from '../../socket';
+
+import {
+    NEW_MESSAGE_ALERT,
+    NEW_REQUEST,
+} from "../../constants/events";
+
+import {
+    incrementNotification,
+    setNewMessagesAlert,
+} from "../../redux/reducers/chat";
+import { getOrSaveFromStorage } from "../../lib/features";
 
 const AppLayout = () => (WrappedComponent) => {
     return (props) => {
@@ -20,23 +31,67 @@ const AppLayout = () => (WrappedComponent) => {
         const chatId = params.chatId;
 
         const dispatch = useDispatch();
-        const socket=getSocket();
+        const socket = getSocket();
 
         //Handling mobile viewport
         const { isMobile } = useSelector((state) => state.misc);
         const { user } = useSelector((state) => state.auth);
+        const { newMessagesAlert } = useSelector((state) => state.chat);
 
         const { isLoading, data, isError, error, refetch } = useMyChatsQuery("");
 
-        console.log(socket.id);
+        // console.log(socket.id);
 
         useErrors([{ isError, error }]);
 
-        const handleMobileClose = () => dispatch(setIsMobile(false));
+
+        useEffect(() => {
+            getOrSaveFromStorage({ key: NEW_MESSAGE_ALERT, value: newMessagesAlert });
+        }, [newMessagesAlert]);
+
+
         const handleDeleteChat = (e, _id, groupChat) => {
             e.preventDefault();
             console.log("DeleteChat", _id, groupChat)
         }
+
+        const handleMobileClose = () => dispatch(setIsMobile(false));
+
+
+
+        const newMessageAlertListener = useCallback(
+            (data) => {
+                if (data.chatId === chatId) return;
+                dispatch(setNewMessagesAlert(data));
+            },
+            [chatId]
+        );
+
+        const newRequestListener = useCallback(() => {
+            dispatch(incrementNotification());
+        }, [dispatch]);
+
+        // const refetchListener = useCallback(() => {
+        //     refetch();
+        //     navigate("/");
+        // }, [refetch, navigate]);
+
+        // const onlineUsersListener = useCallback((data) => {
+        //     setOnlineUsers(data);
+        // }, []);
+
+
+
+
+        const eventHandlers = {
+            [NEW_MESSAGE_ALERT]: newMessageAlertListener,
+            [NEW_REQUEST]: newRequestListener,
+            // [REFETCH_CHATS]: refetchListener,
+            // [ONLINE_USERS]: onlineUsersListener,
+        };
+
+        useSocketEvents(socket, eventHandlers);
+        
         return (
             <>
                 <Title />
@@ -51,8 +106,8 @@ const AppLayout = () => (WrappedComponent) => {
                             chats={data?.chats}
                             chatId={chatId}
                             handleDeleteChat={handleDeleteChat}
-                            // newMessagesAlert={newMessagesAlert}
-                            // onlineUsers={onlineUsers}
+                        newMessagesAlert={newMessagesAlert}
+                        // onlineUsers={onlineUsers}
                         />
                     </Drawer>
                 )}
@@ -76,7 +131,7 @@ const AppLayout = () => (WrappedComponent) => {
                                 chats={data?.chats}
                                 chatId={chatId}
                                 handleDeleteChat={handleDeleteChat}
-                            // newMessagesAlert={newMessagesAlert}
+                            newMessagesAlert={newMessagesAlert}
                             // onlineUsers={onlineUsers}
                             />
                         )}
@@ -98,7 +153,7 @@ const AppLayout = () => (WrappedComponent) => {
                             bgcolor: "rgba(0,0,0,0.85)",
                         }}
                     >
-                        <Profile  user={user}/>
+                        <Profile user={user} />
                     </Grid>
                 </Grid>
 

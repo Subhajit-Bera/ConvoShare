@@ -20,7 +20,7 @@ import { useErrors, useSocketEvents } from "../hooks/hook";
 import { useInfiniteScrollTop } from "6pp";
 import { useDispatch } from 'react-redux';
 import { setIsFileMenu } from "../redux/reducers/misc";
-
+import { removeNewMessagesAlert } from "../redux/reducers/chat";
 const Chat = ({ chatId, user }) => {
     const containerRef = useRef(null);
     const socket = getSocket();
@@ -48,8 +48,8 @@ const Chat = ({ chatId, user }) => {
         setPage,
         oldMessagesChunk.data?.messages
     );
-    console.log(page);
-    console.log(oldMessages);
+    // console.log(page);
+    // console.log(oldMessages);
 
     const errors = [
         { isError: chatDetails.isError, error: chatDetails.error },
@@ -68,6 +68,25 @@ const Chat = ({ chatId, user }) => {
         setMessage("");
     };
 
+    const handleFileOpen = (e) => {
+        dispatch(setIsFileMenu(true));
+        setFileMenuAnchor(e.currentTarget);
+    };
+
+
+    useEffect(() => {
+        // socket.emit(CHAT_JOINED, { userId: user._id, members });
+        dispatch(removeNewMessagesAlert(chatId));
+
+        return () => {
+            setMessages([]);
+            setMessage("");
+            setOldMessages([]);
+            setPage(1);
+            // socket.emit(CHAT_LEAVED, { userId: user._id, members });
+        };
+    }, [chatId]);
+
     const newMessagesListener = useCallback(
         (data) => {
             if (data.chatId !== chatId) return;
@@ -77,10 +96,7 @@ const Chat = ({ chatId, user }) => {
         [chatId]
     );
 
-    const handleFileOpen = (e) => {
-        dispatch(setIsFileMenu(true));
-        setFileMenuAnchor(e.currentTarget);
-    };
+   
 
     //Create object of evenets 
     const eventHandler = {
@@ -174,7 +190,7 @@ const Chat = ({ chatId, user }) => {
                 </Stack>
 
             </form>
-            <FileMenu anchorE1={fileMenuAnchor} chatId={chatId}/>
+            <FileMenu anchorE1={fileMenuAnchor} chatId={chatId} />
         </>
     )
 
