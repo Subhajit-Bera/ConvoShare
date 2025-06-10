@@ -5,6 +5,7 @@ import { connectDB } from "./utils/features.js";
 import cookieParser from "cookie-parser";
 import { errorMiddleware } from "./middlewares/error.js";
 // import { createUser } from "./seeders/user.js"; for creave fake user : createUser(10);
+import { createSingleChats,createGroupChats,createMessagesInAChat } from "./seeders/chat.js";
 import { Server } from "socket.io";
 import { NEW_MESSAGE, NEW_MESSAGE_ALERT } from "./constants/events.js";
 import { v4 as uuid } from "uuid";
@@ -30,7 +31,7 @@ dotenv.config({
 const mongoURI = process.env.MONGO_URI;
 const port = process.env.PORT || 3000;
 const envMode = process.env.NODE_ENV.trim() || "PRODUCTION";
-const adminSecretKey = process.env.ADMIN_SECRET_KEY || sfusfusfusfusfu;
+// const adminSecretKey = process.env.ADMIN_SECRET_KEY || sfusfusfusfusfu;
 
 const userSocketIDs = new Map(); //mapping userId(active/online) with socket id
 
@@ -144,4 +145,6 @@ server.listen(port, () => {
     console.log(`Server is running on port ${port} in ${envMode} Mode`);
 });
 
-export { adminSecretKey, envMode, userSocketIDs }
+// export { adminSecretKey, envMode, userSocketIDs }
+
+export {envMode,userSocketIDs }

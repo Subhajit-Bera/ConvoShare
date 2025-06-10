@@ -3,6 +3,7 @@ import jwt from "jsonwebtoken";
 import { v4 as uuid } from "uuid";
 import { v2 as cloudinary } from "cloudinary";
 import { getBase64, getSockets } from "../lib/helper.js";
+import nodemailer from 'nodemailer';
 
 const cookieOptions = {
     maxAge: 15 * 24 * 60 * 60 * 1000,
@@ -32,6 +33,59 @@ const sendToken = (res, user, code, message) => {
         user,
         message,
     });
+};
+
+const sendOTPEmail = async (email, otp) => {
+    const transporter = nodemailer.createTransport({
+        // service: 'gmail', // Use your email service (e.g., Gmail, SendGrid)
+        secure: true,
+        host: 'smtp.gmail.com',
+        port: 465,
+        auth: {
+            user: process.env.EMAIL_USER, // Your email address
+            pass: process.env.EMAIL_PASS, // Your email password or app-specific password
+        },
+
+    });
+    const mailOptions = {
+        from: process.env.EMAIL_USER,
+        to: email,
+        subject: 'Your OTP for ConvoShare App Registration',
+        text: `Your OTP for registration is: ${otp}. It expires in 5 minutes.`,
+    };
+
+    await transporter.sendMail(mailOptions);
+};
+
+const sendResetEmail = async (email, subject, html) => {
+    // Mock implementation; replace with your email service (e.g., Nodemailer, SendGrid)
+    console.log(`Sending email to ${email}: ${subject}`);
+    console.log(html);
+    // Example: await nodemailer.sendMail({ to: email, subject, html });
+
+    const transporter = nodemailer.createTransport({
+        // service: 'gmail', // Use your email service (e.g., Gmail, SendGrid)
+        secure: true,
+        host: 'smtp.gmail.com',
+        port: 465,
+        auth: {
+            user: process.env.EMAIL_USER, // Your email address
+            pass: process.env.EMAIL_PASS, // Your email password or app-specific password
+        },
+
+    });
+    const mailOptions = {
+        from: process.env.EMAIL_USER,
+        to: email,
+        subject: subject,
+        html,
+    };
+
+    await transporter.sendMail(mailOptions);
+};
+
+const generateOTP = () => {
+    return Math.floor(100000 + Math.random() * 900000).toString();
 };
 
 const emitEvent = (req, event, users, data) => {
@@ -77,4 +131,4 @@ const deletFilesFromCloudinary = async (public_ids) => {
     // Delete files from cloudinary
 };
 
-export { connectDB, sendToken, cookieOptions, emitEvent, deletFilesFromCloudinary, uploadFilesToCloudinary }
+export { connectDB, sendToken, cookieOptions, emitEvent, deletFilesFromCloudinary, uploadFilesToCloudinary, sendOTPEmail, sendResetEmail, generateOTP}

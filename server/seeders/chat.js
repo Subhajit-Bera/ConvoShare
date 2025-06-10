@@ -51,10 +51,14 @@ const createGroupChats = async (numChats) => {
             }
 
             const chat = Chat.create({
-                groupChat: true,
+                isGroupChat: true,
                 name: faker.lorem.words(1),
                 members,
-                creator: members[0],
+                admins: members[0],
+                avatar: {
+                    url: faker.image.avatar(),
+                    public_id: faker.system.fileName(),
+                },
             });
 
             chatsPromise.push(chat);

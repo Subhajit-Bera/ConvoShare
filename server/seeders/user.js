@@ -10,6 +10,7 @@ const createUser = async (numUsers) => {
                 name: faker.person.fullName(),
                 username: faker.internet.userName(),
                 bio: faker.lorem.sentence(10),
+                email:faker.internet.email(),
                 password: "password",
                 avatar: {
                     url: faker.image.avatar(),

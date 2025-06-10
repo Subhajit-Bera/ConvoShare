@@ -17,6 +17,7 @@ const validateHandler = (req, res, next) => {
 const registerValidator = () => [
     body("name", "Please Enter Name").notEmpty(),
     body("username", "Please Enter Username").notEmpty(),
+    body("email", "Please provide a valid email").isEmail(),
     body("bio", "Please Enter Bio").notEmpty(),
     body("password", "Please Enter Password").notEmpty(),
 ];
@@ -24,6 +25,10 @@ const registerValidator = () => [
 const loginValidator = () => [
     body("username", "Please Enter Username").notEmpty(),
     body("password", "Please Enter Password").notEmpty(),
+];
+
+const otpRequestValidator = () => [
+    body("email", "Please provide an email").notEmpty(),
 ];
 
 const newGroupValidator = () => [
@@ -80,9 +85,20 @@ const adminLoginValidator = () => [
     body("secretKey", "Please Enter Secret Key").notEmpty(),
 ];
 
+const makeAdminValidator = () => [
+    param("id", "Please Enter Chat ID").notEmpty(),
+    body("userId", "Please Enter User ID").notEmpty(),
+];
+
+const resetPasswordValidator = () => [
+  param("token", "Please Provide Reset Token").notEmpty(),
+  body("password", "Please Enter New Password").isLength({ min: 6 }),
+];
+
 export {
     registerValidator,
     validateHandler,
+    otpRequestValidator,
     loginValidator,
     newGroupValidator,
     addMemberValidator,
@@ -92,5 +108,7 @@ export {
     renameValidator,
     sendRequestValidator,
     acceptRequestValidator,
-    adminLoginValidator
+    adminLoginValidator,
+    makeAdminValidator,
+    resetPasswordValidator
 }

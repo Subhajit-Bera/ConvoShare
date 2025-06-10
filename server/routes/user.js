@@ -1,15 +1,18 @@
 import express from "express";
-import { login, newUser, getMyProfile, logout, searchUser, sendFriendRequest,acceptFriendRequest,getMyNotifications ,getMyFriends} from "../controllers/user.js";
+import { requestOTP, login, newUser, getMyProfile, logout, searchUser, sendFriendRequest, acceptFriendRequest, getMyNotifications, getMyFriends, requestResetLink, resetPassword } from "../controllers/user.js";
 import { singleAvatar, attachmentsMulter } from "../middlewares/multer.js";
-import { isAuthenticated } from "../middlewares/auth.js";
-import { registerValidator, validateHandler, loginValidator, sendRequestValidator, acceptRequestValidator } from "../lib/validators.js";
+import { isAuthenticated, otpRateLimiter, resetLinkRateLimiter } from "../middlewares/auth.js";
+import { registerValidator, validateHandler, otpRequestValidator, loginValidator, sendRequestValidator, acceptRequestValidator, resetPasswordValidator } from "../lib/validators.js";
 
 const app = express.Router();
 
+app.post("/request-otp", otpRequestValidator(), validateHandler, otpRateLimiter, requestOTP);
+// app.post("/newUser", singleAvatar, registerValidator(), validateHandler, newUser);
 
 app.post("/new", singleAvatar, registerValidator(), validateHandler, newUser);
 app.post("/login", loginValidator(), validateHandler, login);
-
+app.post("/request-reset-link", resetLinkRateLimiter, requestResetLink);
+app.post("/reset-password/:token", resetPasswordValidator(), validateHandler, resetPassword);
 
 //User have to be login
 // app.get("/me",isAuthenticated, getMyProfile); 
