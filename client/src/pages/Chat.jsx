@@ -17,7 +17,7 @@ import { getSocket } from '../socket';
 import { NEW_MESSAGE } from '../constants/events';
 import { useChatDetailsQuery, useGetMessagesQuery } from '../redux/api/api';
 import { useErrors, useSocketEvents } from "../hooks/hook";
-import { useInfiniteScrollTop } from "6pp";
+import { useInfiniteScrollTop } from '../lib/useInfiniteScrollTop';
 import { useDispatch } from 'react-redux';
 import { setIsFileMenu } from "../redux/reducers/misc";
 import { removeNewMessagesAlert } from "../redux/reducers/chat";
@@ -48,15 +48,13 @@ const Chat = ({ chatId, user }) => {
         setPage,
         oldMessagesChunk.data?.messages
     );
-    // console.log(page);
-    // console.log(oldMessages);
+    console.log(page);
+    console.log(oldMessages);
 
     const errors = [
         { isError: chatDetails.isError, error: chatDetails.error },
         { isError: oldMessagesChunk.isError, error: oldMessagesChunk.error },
     ];
-
-
 
     const submitHandler = (e) => {
         e.preventDefault();

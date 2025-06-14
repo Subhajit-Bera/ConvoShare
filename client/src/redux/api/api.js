@@ -17,7 +17,6 @@ const api = createApi({
       invalidatesTags: ["User"],
     }),
 
-
     //Search User
     searchUser: builder.query({
       query: (name) => ({
@@ -26,7 +25,6 @@ const api = createApi({
       }),
       providesTags: ["User"],
     }),
-
 
     //Sending Chat Request
     sendFriendRequest: builder.mutation({

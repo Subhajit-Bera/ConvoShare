@@ -14,6 +14,7 @@ const Home = lazy(() => import("./pages/Home"));
 const Login = lazy(() => import("./pages/Login"));
 const Chat = lazy(() => import("./pages/Chat"));
 const Groups = lazy(() => import("./pages/Groups"));
+const ResetPassword = lazy(() => import("./pages/ResetPassword"));
 const NotFound = lazy(() => import("./pages/NotFound"));
 
 // Admin
@@ -33,14 +34,11 @@ const App = () => {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    // console.log(server);
     axios
       .get(`${server}/api/v1/user/me`, { withCredentials: true })
       .then(({ data }) => dispatch(userExists(data.user)))
       .catch((err) => dispatch(userNotExists()));
   }, [dispatch]);
-
-
 
   return loader ? (<LayoutLoader />) : (
     <BrowserRouter>
@@ -57,6 +55,8 @@ const App = () => {
               <Login />
             </ProtectRoute>}
           />
+
+          <Route path="/reset-password/:token" element={<ResetPassword />} />
 
           {/* Admin Routes */}
           <Route path="/admin" element={<AdminLogin />} />
